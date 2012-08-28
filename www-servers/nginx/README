@@ -1,0 +1,5 @@
+Nginx ebuild with additional modules:
+	http_redis	http://wiki.nginx.org/HttpRedis
+	http_redis2	http://wiki.nginx.org/HttpRedis2Module
+	http_echo	http://wiki.nginx.org/HttpEchoModule
+
