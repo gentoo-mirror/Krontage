@@ -6,7 +6,7 @@ EAPI=4
 
 DESCRIPTION="Zookeeper C client module."
 HOMEPAGE="zookeeper.apache.org"
-SRC_URI="http://apache.softded.ru/zookeeper/current/zookeeper-3.4.5.tar.gz -> libzookeeper-3.4.5.tar.gz"
+SRC_URI="http://apache.softded.ru/zookeeper/current/zookeeper-${PVR}.tar.gz -> ${PF}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
