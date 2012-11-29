@@ -4,7 +4,6 @@
 
 EAPI=4
 
-INCLUDE="eutils"
 
 DESCRIPTION="ZooKeeper is a distributed, open-source coordination service for distributed applications."
 HOMEPAGE="http://zookeeper.apache.org"
@@ -17,6 +16,8 @@ IUSE=""
 
 DEPEND="!dev-php/libzookeeper virtual/jre"
 RDEPEND="${DEPEND}"
+
+inherit eutils
 
 src_install() {
     dodoc README.txt CHANGES.txt || die
