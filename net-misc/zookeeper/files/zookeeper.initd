@@ -15,6 +15,10 @@ depend() {
 	use net
 }
 
+pre_start() {
+	checkpath -f ${pid_file} -f ${log_file} -o ${user}
+}
+
 start() {
 	ebegin	"Starting ${prog_name}..."
 	start-stop-daemon	--start -p ${pid_file} -u ${user} -P -b -d ${root_dir} -m -1 ${log_file} -w 5000 -2 ${log_file} -x java -- $jar_file $jar_options $java_options $log_options
