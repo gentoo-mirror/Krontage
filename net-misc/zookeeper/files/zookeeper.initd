@@ -8,6 +8,8 @@ jar_file="$root_dir/zookeeper-${version}.jar"
 jar_options="-cp $root_dir/build/classes:$root_dir/build/lib/*.jar:$root_dir/lib/*.jar:$root_dir/src/java/*.jar:$root_dir/conf:$jar_file"
 java_options="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only=false org.apache.zookeeper.server.quorum.QuorumPeerMain $config"
 log_options="-Dzookeeper.log.dir=. -Dzookeeper.root.logger=INFO,CONSOLE"
+pid_file="/var/run/${prog_name}.pid"
+log_file="/var/log/${prog_name}.log"
 
 depend() {
 	use net

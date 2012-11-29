@@ -6,16 +6,8 @@
 version="3.4.5"
 #	user to run zookeeper
 user="zookeeper"
-
-#	pidfile
-pid_file="/var/run/${prog_name}.pid"
-
-#	logfile
-log_file="/var/log/${prog_name}.log"
-
 #	root directory of zookeeper
 root_dir="/var/www/zookeeper"
-
 #	zookeeper config file
 config="/etc/zookeeper.cfg"
 
