@@ -4,6 +4,8 @@
 
 EAPI=4
 
+INCLUDE="eutils"
+
 DESCRIPTION="ZooKeeper is a distributed, open-source coordination service for distributed applications."
 HOMEPAGE="http://zookeeper.apache.org"
 SRC_URI="http://apache.softded.ru/zookeeper/current/${PF}.tar.gz -> ${PF}.tar.gz"
