@@ -1,0 +1,26 @@
+#!/sbin/runscript
+# Copyright 1999-2012 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+prog_name="zookeeper"
+jar_file="$root_dir/zookeeper-${version}.jar"
+jar_options="-cp $root_dir/build/classes:$root_dir/build/lib/*.jar:$root_dir/lib/*.jar:$root_dir/src/java/*.jar:$root_dir/conf:$jar_file"
+java_options="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only=false org.apache.zookeeper.server.quorum.QuorumPeerMain $config"
+log_options="-Dzookeeper.log.dir=. -Dzookeeper.root.logger=INFO,CONSOLE"
+
+depend() {
+	use net
+}
+
+start() {
+	ebegin	"Starting ${prog_name}..."
+	start-stop-daemon	--start -p ${pid_file} -u ${user} -P -b -d ${root_dir} -m -1 ${log_file} -w 5000 -2 ${log_file} -x java -- $jar_file $jar_options $java_options $log_options
+	eend	$? "failed to start ${prog_name} =("
+}
+
+stop() {
+	ebegin	"Trying to stop ${prog_name}..."
+	start-stop-daemon	--stop -p ${pid_file} -1 ${log_file} -2 ${log_file} -R SIGTERM/10
+}
+
