@@ -33,3 +33,7 @@ pkg_preinst() {
     enewuser zookeeper -1 /bin/sh /var/www/${PN} zookeeper -r
 }
 
+pkg_postinst() {
+    chown -R zookeeper. ${D}/var/www/${PN}
+}
+
