@@ -8,6 +8,10 @@ version="3.4.5"
 user="zookeeper"
 #	root directory of zookeeper
 root_dir="/var/www/zookeeper"
+#	data dir
+data_dir="/var/lib/zookeeper"
 #	zookeeper config file
 config="/etc/zookeeper.cfg"
+#	java heap size
+heap="128M"
 

@@ -23,6 +23,7 @@ src_install() {
     dodoc README.txt CHANGES.txt || die
 	mkdir -p ${D}/var/www/${PN} || die
 	cp -a ${WORKDIR}/$PF/* ${D}/var/www/${PN} || die
+	sed -i "s:version=.*:version=${PVR}:g" ${FILESDIR}/zookeeper.confd
 	newconfd ${FILESDIR}/zookeeper.confd ${PN}|| die
 	newinitd ${FILESDIR}/zookeeper.initd ${PN} || die
 	cp -a ${FILESDIR}/zookeeper.cfg ${D}/etc/ || die
@@ -31,9 +32,5 @@ src_install() {
 pkg_preinst() {
     enewgroup zookeeper
     enewuser zookeeper -1 /bin/sh /var/www/${PN} zookeeper -r
-}
-
-pkg_postinst() {
-    chown -R zookeeper. ${D}/var/www/${PN}
 }
 
