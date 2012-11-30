@@ -23,9 +23,9 @@ src_install() {
     dodoc README.txt CHANGES.txt || die
 	mkdir -p ${D}/var/www/${PN} || die
 	cp -a ${WORKDIR}/$PF/* ${D}/var/www/${PN} || die
-	sed -i "s:version=.*:version=${PVR}:g" ${FILESDIR}/zookeeper.confd
 	newconfd ${FILESDIR}/zookeeper.confd ${PN}|| die
 	newinitd ${FILESDIR}/zookeeper.initd ${PN} || die
+	sed -i "s:version=.*:version=${PVR}:g" ${D}/etc/conf.d/${PN}
 	cp -a ${FILESDIR}/zookeeper.cfg ${D}/etc/ || die
 }
 
