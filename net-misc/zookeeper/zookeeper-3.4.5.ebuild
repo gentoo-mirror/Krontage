@@ -25,7 +25,7 @@ src_install() {
 	cp -a ${WORKDIR}/$PF/* ${D}/var/www/${PN} || die
 	newconfd ${FILESDIR}/zookeeper.confd ${PN}|| die
 	newinitd ${FILESDIR}/zookeeper.initd ${PN} || die
-	sed -i "s:version=.*:version=${PVR}:g" ${D}/etc/conf.d/${PN}
+	sed -i "s:version=.*:\"version=${PVR}\":g" ${D}/etc/conf.d/${PN}
 	cp -a ${FILESDIR}/zookeeper.cfg ${D}/etc/ || die
 }
 
