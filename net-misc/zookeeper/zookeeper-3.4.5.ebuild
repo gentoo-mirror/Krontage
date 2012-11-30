@@ -34,3 +34,8 @@ pkg_preinst() {
     enewuser zookeeper -1 /bin/sh /var/www/${PN} zookeeper -r
 }
 
+pkg_prerm() {
+    # clean up temp files
+    [[ -d "${ROOT}/var/lib/${PN}" ]] && rm -rf "${ROOT}/var/lib/${PN}"
+}
+
