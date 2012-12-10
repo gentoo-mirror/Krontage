@@ -21,8 +21,8 @@ inherit eutils
 
 src_install() {
     dodoc README.txt CHANGES.txt || die
-	mkdir -p ${D}/var/www/${PN} || die
-	cp -a ${WORKDIR}/$PF/* ${D}/var/www/${PN} || die
+	mkdir -p ${D}/opt/${PN} || die
+	cp -a ${WORKDIR}/$PF/* ${D}/opt/${PN} || die
 	newconfd ${FILESDIR}/zookeeper.confd ${PN}|| die
 	newinitd ${FILESDIR}/zookeeper.initd ${PN} || die
 	sed -i "s:version=.*:version=\"${PVR}\":g" ${D}/etc/conf.d/${PN}
@@ -31,11 +31,11 @@ src_install() {
 
 pkg_preinst() {
     enewgroup zookeeper
-    enewuser zookeeper -1 /bin/sh /var/www/${PN} zookeeper -r
+    enewuser zookeeper -1 /bin/sh /opt/${PN} zookeeper -r
 }
 
 pkg_prerm() {
     # clean up temp files
-    [[ -d "${ROOT}/var/lib/${PN}" ]] && rm -rf "${ROOT}/var/lib/${PN}"
+    [[ -d "${ROOT}/var/db/${PN}" ]] && rm -rf "${ROOT}/var/db/${PN}"
 }
 

@@ -7,9 +7,9 @@ version="3.4.5"
 #	user to run zookeeper
 user="zookeeper"
 #	root directory of zookeeper
-root_dir="/var/www/zookeeper"
+root_dir="/opt/zookeeper"
 #	data dir
-data_dir="/var/lib/zookeeper"
+data_dir="/opt/zookeeper"
 #	zookeeper config file
 config="/etc/zookeeper.cfg"
 #	java heap size, use it with letters in the end to specify size - G/g or M/g

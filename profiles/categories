@@ -3,3 +3,4 @@ dev-php
 dev-libs
 dev-db
 net-misc
+sys-cluster
