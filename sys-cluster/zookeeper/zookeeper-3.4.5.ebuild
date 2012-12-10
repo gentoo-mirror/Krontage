@@ -33,6 +33,7 @@ pkg_preinst() {
     enewgroup zookeeper
     enewuser zookeeper -1 /bin/sh /opt/${PN} zookeeper -r
 	mkdir	-p ${ROOT}/var/db/${PN}
+	chown	-R zookeeper. ${ROOT}/var/db/${PN}
 }
 
 pkg_prerm() {
