@@ -14,7 +14,7 @@ SLOT="0"
 KEYWORDS="~x86 ~amd64"
 IUSE=""
 
-DEPEND="!dev-php/libzookeeper virtual/jre"
+DEPEND="!dev-libs/libzookeeper virtual/jre"
 RDEPEND="${DEPEND}"
 
 inherit eutils

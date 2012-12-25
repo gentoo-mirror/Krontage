@@ -16,7 +16,7 @@ LICENSE="PHP 3.01"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-DEPEND="dev-lang/php[curl,hash,ssl] ( || ( dev-php/libzookeeper
+DEPEND="dev-lang/php[curl,hash,ssl] ( || ( dev-libs/libzookeeper
 sys-cluster/zookeeper ) )"
 RDEPEND="${DEPEND}"
 IUSE=""
