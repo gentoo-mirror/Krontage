@@ -27,6 +27,10 @@ src_install() {
 	newinitd ${FILESDIR}/zookeeper.initd ${PN} || die
 	sed -i "s:version=.*:version=\"${PVR}\":g" ${D}/etc/conf.d/${PN}
 	cp -a ${FILESDIR}/zookeeper.cfg ${D}/etc/ || die
+	#	install headers for c client compilation
+	cp -a ${S}/src/c/generated/zookeeper.jute.h ${S}/src/c/include/ || die
+	mkdir -p ${D}/usr/include/zookeeper || die
+	cp -a ${S}/src/c/include/* ${D}/usr/include/zookeeper/ || die
 }
 
 pkg_preinst() {
@@ -34,6 +38,14 @@ pkg_preinst() {
     enewuser zookeeper -1 /bin/sh /opt/${PN} zookeeper -r
 	mkdir	-p ${ROOT}/var/db/${PN}
 	chown	-R zookeeper. ${ROOT}/var/db/${PN}
+}
+
+pkg_postinst() {
+	elog "Apache Zookeeper installed to the /opt dir."
+	elog "Zookeeper config file you can find here: /etc/zookeeper.cfg"
+	elog "Default database dir is: /var/db/zookeeper and can be changed in the
+	/etc/conf.d/zookeeper config file"
+	elog "Have fun! :)"
 }
 
 pkg_prerm() {
