@@ -19,6 +19,20 @@ RDEPEND="${DEPEND}"
 
 inherit eutils
 
+src_configure() {
+	cd ${S}/src/c
+	if [[ -x ${ECONF_SOURCE:-.}/configure ]] ; then
+		econf
+	fi
+}
+
+src_compile() {
+	cd ${S}/src/c
+	if [ -f Makefile ] || [ -f GNUmakefile ] || [ -f makefile ]; then
+		emake || die "emake failed"
+	fi
+}
+
 src_install() {
     dodoc README.txt CHANGES.txt || die
 	mkdir -p ${D}/opt/${PN} || die
@@ -28,6 +42,8 @@ src_install() {
 	sed -i "s:version=.*:version=\"${PVR}\":g" ${D}/etc/conf.d/${PN}
 	cp -a ${FILESDIR}/zookeeper.cfg ${D}/etc/ || die
 	#	install headers for c client compilation
+	cd ${S}/src/c
+	emake DESTDIR="${D}" install || die "Install failed"
 	cp -a ${S}/src/c/generated/zookeeper.jute.h ${S}/src/c/include/ || die
 	mkdir -p ${D}/usr/include/zookeeper || die
 	cp -a ${S}/src/c/include/* ${D}/usr/include/zookeeper/ || die
