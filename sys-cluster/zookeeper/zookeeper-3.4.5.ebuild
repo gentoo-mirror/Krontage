@@ -41,6 +41,10 @@ src_install() {
 	newinitd ${FILESDIR}/zookeeper.initd ${PN} || die
 	sed -i "s:version=.*:version=\"${PVR}\":g" ${D}/etc/conf.d/${PN}
 	cp -a ${FILESDIR}/zookeeper.cfg ${D}/etc/ || die
+	if [ -d ${ROOT}/etc/logrotate.d ];then
+		mkdir ${D}/etc/logrotate.d || die
+		cp -a ${FILESDIR}/zookeeper.logrotate ${D}/etc/logrotate.d/zookeeper || die
+	fi
 	#	install headers for c client compilation
 	cd ${S}/src/c
 	emake DESTDIR="${D}" install || die "Install failed"
