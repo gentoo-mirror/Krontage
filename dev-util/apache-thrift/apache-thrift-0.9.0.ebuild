@@ -17,8 +17,8 @@ perl php php_extension ruby haskell go d"
 
 DEPEND="java? (
 		|| (
-			virtual/jdk
 			dev-java/ant
+			virtual/jdk
 			)
 		)
 		boost? ( dev-libs/boost )
