@@ -1,6 +1,7 @@
-www-servers
-dev-php
-dev-libs
 dev-db
+dev-libs
+dev-php
+dev-util
 net-misc
 sys-cluster
+www-servers
