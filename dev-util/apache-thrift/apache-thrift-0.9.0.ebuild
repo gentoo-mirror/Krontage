@@ -15,7 +15,12 @@ KEYWORDS="~x86 ~amd64"
 IUSE="+pic gnu-ld +cpp +boost +libevent +zlib qt4 +c_glib csharp java erlang python
 perl php php_extension ruby haskell go d"
 
-DEPEND="
+DEPEND="java? (
+		|| (
+			virtual/jdk
+			dev-java/ant
+			)
+		)
 		boost? ( dev-libs/boost )
 		libevent? ( dev-libs/libevent )
 		zlib? ( sys-libs/zlib )
@@ -26,13 +31,7 @@ DEPEND="
 		php? ( dev-lang/php )
 		ruby? ( dev-lang/ruby )
 		go? ( dev-lang/go )"
-RDEPEND="${DEPEND}
-		java? (
-		|| (
-			virtual/jdk
-			dev-java/ant
-			)
-		)"
+RDEPEND="${DEPEND}"
 
 src_unpack() {
 	if [ "${A}" != "" ]; then
