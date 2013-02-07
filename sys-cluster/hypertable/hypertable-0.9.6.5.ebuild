@@ -40,7 +40,7 @@ src_install() {
 
 pkg_preinst() {
 	enewgroup hypert
-	enewuser hypert -1 /bin/false /opt/${PN} hypert || ewarn "unable to create user hypert"
+	enewuser hypert -1 -1 /opt/${PN} hypert || ewarn "unable to create user hypert"
 
 	fowners	hypert. ${D}/opt/${PN} || ewarn
 	fowners	hypert. ${D}/etc/${PN} || ewarn
