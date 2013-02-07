@@ -42,9 +42,9 @@ pkg_preinst() {
 	enewgroup hypert
 	enewuser hypert -1 -1 /opt/${PN} hypert || ewarn "unable to create user hypert"
 
-	fowners	hypert. ${D}/opt/${PN} || ewarn
-	fowners	hypert. ${D}/etc/${PN} || ewarn
-	fowners	hypert. ${D}/var/db/${PN} || ewarn
+	fowners	hypert. /opt/${PN} || ewarn
+	fowners	hypert. /etc/${PN} || ewarn
+	fowners	hypert. /var/db/${PN} || ewarn
 }
 
 pkg_postinst() {
