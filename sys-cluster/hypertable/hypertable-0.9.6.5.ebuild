@@ -18,7 +18,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="x86"
 
-DEPEND=""
+DEPEND="sys-apps/keyutils"
 RDEPEND="${DEPEND}"
 
 S=${WORKDIR}/opt/${PN}/${PV}
@@ -49,7 +49,7 @@ pkg_postinst() {
 	elog "firstly, before using, you may need to run fhsize.sh: sudo -u hypert /opt/${PN}/${PV}/bin/fhsize.sh"
 	elog "all configs are placed to /etc/${PN}, database files are in /var/db/${PN}"
 	elog "to run the server - edit /etc/${PN}/${PN}.conf and execute
-	/opt/${PN}/current/bin/start-all-servers.sh"
+	sudo -u hypert /opt/${PN}/current/bin/start-all-servers.sh"
 	elog "full manual reference about installation can be found on the page:
 	http://hypertable.com/documentation/installation/quick_start_standalone/"
 }
