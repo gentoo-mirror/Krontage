@@ -33,9 +33,7 @@ src_install() {
 
 	cp -a ${S}/ ${D}/opt/${PN} || die "install failed"
 
-	dosym /opt/${PN}/${PV}/conf/hypertable.cfg /etc/${PN}/ || ewarn "unable to create config symlink"
-	dosym /opt/${PN}/${PV} /opt/${PN}/current || ewarn "symlink exists? you need
-	to change it manually"
+	dosym /opt/${PN}/${PV} /opt/${PN}/current || ewarn "symlink exists? you need to change it manually"
 }
 
 pkg_preinst() {
@@ -48,8 +46,7 @@ pkg_preinst() {
 }
 
 pkg_postinst() {
-	elog "firstly, before using, you may need to run fhsize.sh at:
-	/opt/${PN}/${PV}/bin/fhsize.sh"
+	elog "firstly, before using, you may need to run fhsize.sh at: /opt/${PN}/${PV}/bin/fhsize.sh"
 	elog "full manual reference about installation can be found on the page:
 	http://hypertable.com/documentation/installation/quick_start_standalone/"
 }
