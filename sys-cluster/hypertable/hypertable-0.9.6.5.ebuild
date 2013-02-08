@@ -40,22 +40,17 @@ src_install() {
 
 	dosym /opt/${PN}/${PV} /opt/${PN}/current || ewarn "symlink exists? you need to change it manually"
 
-	ewarn
-	einfo	${D}
-	einfo	/lib/libselinux.so.1
-	ewarn
-
-	newlib.so ${FILESDIR}/x64-libselinux.so.1 /opt/${PN}/${PV}/lib/libselinux.so.1	|| ewarn
-
-##	if ! use x86 ; then
-##		einfo	$( realpath /usr/lib/libexpat.so )
-##		einfo	${D}/opt/${PN}/${PV}/lib/libselinux.so.1
-##		newins ${FILESDIR}/x64-libselinux.so.1 ${D}/opt/${PN}/${PV}/lib/libselinux.so.1
-##		[ ! -e /usr/lib/libexpat.so.0 ] && dosym $( realpath /usr/lib/libexpat.so ) ${D}/usr/lib/libexpat.so.0
-##	else
-##		newins ${FILESDIR}/x86-libselinux.so.1 ${D}/opt/${PN}/${PV}/lib/libselinux.so.1
-##		[ ! -e /usr/lib/libexpat.so.0 ] && dosym $( realpath /usr/lib/libexpat.so ) ${D}/usr/lib/libexpat.so.0
-##	fi
+	if ! use x86 ; then
+		insinto	/opt/${PN}/${PV}/lib
+		newlib.so ${FILESDIR}/x64-libselinux.so.1 libselinux.so.1
+		insinto	/usr/lib
+		[ ! -e /usr/lib/libexpat.so.0 ] && dosym $( realpath /usr/lib/libexpat.so ) libexpat.so.0
+	else
+		insinto	/opt/${PN}/${PV}/lib
+		newlib.so ${FILESDIR}/x86-libselinux.so.1 libselinux.so.1
+		insinto	/usr/lib
+		[ ! -e /usr/lib/libexpat.so.0 ] && dosym $( realpath /usr/lib/libexpat.so ) libexpat.so.0
+	fi
 }
 
 pkg_preinst() {
