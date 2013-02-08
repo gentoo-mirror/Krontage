@@ -18,13 +18,18 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="x86"
 
-DEPEND="sys-apps/keyutils"
+DEPEND="
+	sys-apps/keyutils
+	sys-libs/readline
+	dev-libs/expat
+	"
 RDEPEND="${DEPEND}"
 
 S=${WORKDIR}/opt/${PN}/${PV}
 
 src_install() {
 	dodir /opt/${PN} || die
+	dodir /opt/${PN}/${PV}/lib || die
 	dodir /etc/${PN} || die
 	dodir /var/db/${PN} || die
 
@@ -36,11 +41,11 @@ src_install() {
 	dosym /opt/${PN}/${PV} /opt/${PN}/current || ewarn "symlink exists? you need to change it manually"
 
 	if ! use x86 ; then
-		newlib.so ${FILESDIR}/x64-libselinux.so.1 /opt/${PN}/${PV}/lib/libselinux.so.1
-		newlib.so ${FILESDIR}/x64-libexpat.so.0 /opt/${PN}/${PV}/lib/libexpat.so.0
+		insinto	/opt/${PN}/${PV}/lib
+		newlib.so ${FILESDIR}/x64-libselinux.so.1 libselinux.so.1
 	else
-		newlib.so ${FILESDIR}/x86-libselinux.so.1 /opt/${PN}/${PV}/lib/libselinux.so.1
-		newlib.so ${FILESDIR}/x86-libexpat.so.0 /opt/${PN}/${PV}/lib/libexpat.so.0
+		insinto	/opt/${PN}/${PV}/lib
+		newlib.so ${FILESDIR}/x86-libselinux.so.1 libselinux.so.1
 	fi
 }
 
