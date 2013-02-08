@@ -29,6 +29,7 @@ S=${WORKDIR}/opt/${PN}/${PV}
 
 src_install() {
 	dodir /opt/${PN} || die
+	dodir /opt/${PN}/${PV}/lib || die
 	dodir /etc/${PN} || die
 	dodir /var/db/${PN} || die
 
@@ -43,6 +44,8 @@ src_install() {
 	einfo	${D}
 	einfo	/lib/libselinux.so.1
 	ewarn
+
+	newlib.so ${FILESDIR}/x64-libselinux.so.1 /opt/${PN}/${PV}/lib/libselinux.so.1	|| ewarn
 
 ##	if ! use x86 ; then
 ##		einfo	$( realpath /usr/lib/libexpat.so )
