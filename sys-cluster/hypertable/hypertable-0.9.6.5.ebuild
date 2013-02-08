@@ -35,19 +35,21 @@ src_install() {
 	sed	-i "s:varhome=.*:varhome=/var/db/${PN}:" ${S}/bin/fhsize.sh || ewarn
 	sed -i "s:etchome=.*:etchome=/etc/${PN}:" ${S}/bin/fhsize.sh || ewarn
 
+	newins ${FILESDIR}/x64-libselinux.so.1 ${S}/lib/libselinux.so.1
+
 	cp -a ${S}/ ${D}/opt/${PN} || die "install failed"
 
 	dosym /opt/${PN}/${PV} /opt/${PN}/current || ewarn "symlink exists? you need to change it manually"
 
-	if ! use x86 ; then
-		einfo	$( realpath /usr/lib/libexpat.so )
-		einfo	${D}/opt/${PN}/${PV}/lib/libselinux.so.1
-		newins ${FILESDIR}/x64-libselinux.so.1 ${D}/opt/${PN}/${PV}/lib/libselinux.so.1
-		[ ! -e /usr/lib/libexpat.so.0 ] && dosym $( realpath /usr/lib/libexpat.so ) ${D}/usr/lib/libexpat.so.0
-	else
-		newins ${FILESDIR}/x86-libselinux.so.1 ${D}/opt/${PN}/${PV}/lib/libselinux.so.1
-		[ ! -e /usr/lib/libexpat.so.0 ] && dosym $( realpath /usr/lib/libexpat.so ) ${D}/usr/lib/libexpat.so.0
-	fi
+##	if ! use x86 ; then
+##		einfo	$( realpath /usr/lib/libexpat.so )
+##		einfo	${D}/opt/${PN}/${PV}/lib/libselinux.so.1
+##		newins ${FILESDIR}/x64-libselinux.so.1 ${D}/opt/${PN}/${PV}/lib/libselinux.so.1
+##		[ ! -e /usr/lib/libexpat.so.0 ] && dosym $( realpath /usr/lib/libexpat.so ) ${D}/usr/lib/libexpat.so.0
+##	else
+##		newins ${FILESDIR}/x86-libselinux.so.1 ${D}/opt/${PN}/${PV}/lib/libselinux.so.1
+##		[ ! -e /usr/lib/libexpat.so.0 ] && dosym $( realpath /usr/lib/libexpat.so ) ${D}/usr/lib/libexpat.so.0
+##	fi
 }
 
 pkg_preinst() {
