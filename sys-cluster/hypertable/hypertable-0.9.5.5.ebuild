@@ -34,6 +34,14 @@ src_install() {
 	cp -a ${S}/ ${D}/opt/${PN} || die "install failed"
 
 	dosym /opt/${PN}/${PV} /opt/${PN}/current || ewarn "symlink exists? you need to change it manually"
+
+	if ! use x86 ; then
+		newlib.so ${FILESDIR}/x64-libselinux.so.1 /opt/${PN}/${PV}/lib/libselinux.so.1
+		newlib.so ${FILESDIR}/x64-libexpat.so.0 /opt/${PN}/${PV}/lib/libexpat.so.0
+	else
+		newlib.so ${FILESDIR}/x86-libselinux.so.1 /opt/${PN}/${PV}/lib/libselinux.so.1
+		newlib.so ${FILESDIR}/x86-libexpat.so.0 /opt/${PN}/${PV}/lib/libexpat.so.0
+	fi
 }
 
 pkg_preinst() {
