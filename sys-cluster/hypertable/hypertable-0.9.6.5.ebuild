@@ -43,13 +43,9 @@ src_install() {
 	if ! use x86 ; then
 		insinto	/opt/${PN}/${PV}/lib
 		newlib.so ${FILESDIR}/x64-libselinux.so.1 libselinux.so.1
-		insinto	/usr/lib
-		[ ! -e /usr/lib/libexpat.so.0 ] && dosym $( realpath /usr/lib/libexpat.so ) libexpat.so.0
 	else
 		insinto	/opt/${PN}/${PV}/lib
 		newlib.so ${FILESDIR}/x86-libselinux.so.1 libselinux.so.1
-		insinto	/usr/lib
-		[ ! -e /usr/lib/libexpat.so.0 ] && dosym $( realpath /usr/lib/libexpat.so ) libexpat.so.0
 	fi
 }
 
