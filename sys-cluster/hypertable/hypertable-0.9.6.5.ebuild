@@ -35,11 +35,14 @@ src_install() {
 	sed	-i "s:varhome=.*:varhome=/var/db/${PN}:" ${S}/bin/fhsize.sh || ewarn
 	sed -i "s:etchome=.*:etchome=/etc/${PN}:" ${S}/bin/fhsize.sh || ewarn
 
-	##newins ${FILESDIR}/x64-libselinux.so.1 ${S}/lib/libselinux.so.1
-
 	cp -a ${S}/ ${D}/opt/${PN} || die "install failed"
 
 	dosym /opt/${PN}/${PV} /opt/${PN}/current || ewarn "symlink exists? you need to change it manually"
+
+	ewarn
+	einfo	${D}
+	einfo	/lib/libselinux.so.1
+	ewarn
 
 ##	if ! use x86 ; then
 ##		einfo	$( realpath /usr/lib/libexpat.so )
