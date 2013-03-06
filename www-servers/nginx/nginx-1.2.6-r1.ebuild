@@ -91,6 +91,12 @@ HTTP_ECHO_MODULE_P="${HTTP_ECHO_MODULE_PN}-${HTTP_ECHO_MODULE_PV}"
 HTTP_ECHO_MODULE_URI="https://github.com/agentzh/echo-nginx-module/tarball/v${HTTP_ECHO_MODULE_PV}"
 HTTP_ECHO_MODULE_SHA1="fb90d17"
 
+# Memcached module https://github.com/agentzh/memc-nginx-module/tags
+HTTP_MEMC_MODULE_PV='0.13rc3'
+HTTP_MEMC_MODULE_PN='memc-nginx'
+HTTP_MEMC_MODULE_P="${HTTP_MEMC_MODULE_PN}-${HTTP_MEMC_MODULE_PV}"
+HTTP_MEMC_MODULE_URI="https://github.com/agentzh/memc-nginx-module/archive/v${HTTP_MEMC_MODULE_PV}.tar.gz"
+
 inherit eutils ssl-cert toolchain-funcs perl-module flag-o-matic user
 
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
@@ -107,7 +113,8 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_fancyindex? ( ${HTTP_FANCYINDEX_MODULE_URI} -> ${HTTP_FANCYINDEX_MODULE_P}.tar.gz )
 	nginx_modules_http_lua? ( ${HTTP_LUA_MODULE_URI} -> ${HTTP_LUA_MODULE_P}.tar.gz )
 	nginx_modules_http_auth_pam? ( ${HTTP_AUTH_PAM_MODULE_URI} -> ${HTTP_AUTH_PAM_MODULE_P}.tar.gz )
-	nginx_modules_http_echo? ( ${HTTP_ECHO_MODULE_URI} -> ${HTTP_ECHO_MODULE_P}.tar.gz )"
+	nginx_modules_http_echo? ( ${HTTP_ECHO_MODULE_URI} -> ${HTTP_ECHO_MODULE_P}.tar.gz )
+	nginx_modules_http_memc? ( ${HTTP_MEMC_MODULE_URI} -> ${HTTP_MEMC_MODULE_P}.tar.gz )"
 
 LICENSE="BSD-2 BSD SSLeay MIT GPL-2"
 SLOT="0"
@@ -129,7 +136,8 @@ NGINX_MODULES_3RD="
 	http_fancyindex
 	http_lua
 	http_auth_pam
-	http_echo"
+	http_echo
+	http_memc"
 
 IUSE="aio debug +http +http-cache ipv6 libatomic +pcre pcre-jit selinux ssl
 syslog vim-syntax"
@@ -293,6 +301,11 @@ src_configure() {
 	if use nginx_modules_http_echo; then
 		http_enabled=1
 		myconf+=" --add-module=${WORKDIR}/agentzh-echo-nginx-module-${HTTP_ECHO_MODULE_SHA1}"
+	fi
+
+	if use nginx_modules_http_memc; then
+		http_enabled=1
+		myconf+=" --add-module=${WORKDIR}/agentzh-memc-nginx-module"
 	fi
 
 	if use http || use http-cache; then
