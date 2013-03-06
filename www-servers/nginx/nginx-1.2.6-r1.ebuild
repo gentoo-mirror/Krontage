@@ -89,7 +89,7 @@ HTTP_ECHO_MODULE_PV="0.42"
 HTTP_ECHO_MODULE_PN="echo-nginx"
 HTTP_ECHO_MODULE_P="${HTTP_ECHO_MODULE_PN}-${HTTP_ECHO_MODULE_PV}"
 HTTP_ECHO_MODULE_URI="https://github.com/agentzh/echo-nginx-module/tarball/v${HTTP_ECHO_MODULE_PV}"
-HTTP_ECHO_MODULE_SHA1="d3eb42d"
+HTTP_ECHO_MODULE_SHA1="fb90d17"
 
 inherit eutils ssl-cert toolchain-funcs perl-module flag-o-matic user
 
