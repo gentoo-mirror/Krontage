@@ -305,7 +305,8 @@ src_configure() {
 
 	if use nginx_modules_http_memc; then
 		http_enabled=1
-		myconf+=" --add-module=${WORKDIR}/agentzh-memc-nginx-module"
+		myconf+="
+		--add-module=${WORKDIR}/memc-nginx-module-${HTTP_MEMC_MODULE_PV}"
 	fi
 
 	if use http || use http-cache; then
