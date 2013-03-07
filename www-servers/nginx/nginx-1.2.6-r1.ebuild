@@ -88,7 +88,7 @@ HTTP_AUTH_PAM_MODULE_WD="${WORKDIR}/ngx_http_auth_pam_module-${HTTP_AUTH_PAM_MOD
 HTTP_ECHO_MODULE_PV="0.42"
 HTTP_ECHO_MODULE_PN="echo-nginx"
 HTTP_ECHO_MODULE_P="${HTTP_ECHO_MODULE_PN}-${HTTP_ECHO_MODULE_PV}"
-HTTP_ECHO_MODULE_URI="https://github.com/agentzh/echo-nginx-module/tarball/v${HTTP_ECHO_MODULE_PV}"
+HTTP_ECHO_MODULE_URI="https://github.com/agentzh/echo-nginx-module/archive/v${HTTP_ECHO_MODULE_PV}"
 HTTP_ECHO_MODULE_SHA1="fb90d17"
 
 # Memcached module https://github.com/agentzh/memc-nginx-module/tags
