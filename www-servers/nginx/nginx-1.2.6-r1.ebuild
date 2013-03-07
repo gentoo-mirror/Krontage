@@ -300,7 +300,8 @@ src_configure() {
 
 	if use nginx_modules_http_echo; then
 		http_enabled=1
-		myconf+=" --add-module=${WORKDIR}/agentzh-echo-nginx-module-${HTTP_ECHO_MODULE_SHA1}"
+		myconf+="
+		--add-module=${WORKDIR}/echo-nginx-module-${HTTP_ECHO_MODULE_PV}"
 	fi
 
 	if use nginx_modules_http_memc; then
