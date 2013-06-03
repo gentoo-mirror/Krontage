@@ -14,4 +14,6 @@ data_dir="/var/db/zookeeper"
 config="/etc/zookeeper.cfg"
 #	java heap size, use it with letters in the end to specify size - G/g or M/g
 heap="128M"
+#   java xmn size
+xmn="128M"
 

@@ -6,7 +6,7 @@
 prog_name="zookeeper"
 modules="${root_dir}/lib/jline-0.9.94.jar:${root_dir}/lib/netty-3.2.2.Final.jar:${root_dir}/lib/slf4j-log4j12-1.6.1.jar:${root_dir}/lib/log4j-1.2.15.jar:${root_dir}/lib/slf4j-api-1.6.1.jar"
 jar_file="$root_dir/zookeeper-${version}.jar"
-args="-Xmx${heap} -Dzookeeper.log.dir=. -Dzookeeper.root.logger=INFO,CONSOLE -cp $root_dir/build/classes:$root_dir/build/lib/*.jar:${modules}:${jar_file}:$root_dir/src/java/lib/*.jar:$root_dir/conf: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only=false org.apache.zookeeper.server.quorum.QuorumPeerMain ${config}"
+args="Xmn${xmn} -Xmx${heap} -server -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:CMSInitiatingOccupancyFraction=90 -XX:NewRatio=7 -XX:+UseCompressedOops -Dzookeeper.log.dir=. -Dzookeeper.root.logger=INFO,CONSOLE -cp $root_dir/build/classes:$root_dir/build/lib/*.jar:${modules}:${jar_file}:$root_dir/src/java/lib/*.jar:$root_dir/conf: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only=false org.apache.zookeeper.server.quorum.QuorumPeerMain ${config}"
 pid_file="/var/run/${prog_name}.pid"
 log_file="/var/log/${prog_name}.log"
 
