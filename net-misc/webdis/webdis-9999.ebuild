@@ -19,5 +19,3 @@ IUSE=""
 DEPEND="dev-vcs/git"
 RDEPEND="${DEPEND}"
 
-git_src_unpack
-
