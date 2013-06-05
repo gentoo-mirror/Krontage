@@ -6,7 +6,7 @@
 start() {
 
     checkpath   -f /run/webdis.pid -f /var/log/webdis.log -o webdis
-    start-stop-daemon   --start --exec webdis --pidfile /run/webdis/webdis.pid --user webdis --progress --background --make-pidfile --stdout /var/log/webdis/webdis.log --stderr /var/log/webdis/webdis.log
+    start-stop-daemon   --start --exec webdis --pidfile /run/webdis/webdis.pid --user webdis --progress --background --make-pidfile --stdout /var/log/webdis/webdis.log --stderr /var/log/webdis/webdis.log -- /etc/webdis.json
 
 }
 
