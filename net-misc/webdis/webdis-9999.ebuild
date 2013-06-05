@@ -22,7 +22,7 @@ RDEPEND="${DEPEND}"
 pkg_preinst()
 {
 	enewgroup webdis
-	enewuser webdis
+	enewuser webdis -1 -1 -1 webdis
 
 	newinitd ${FILESDIR}/webdis.initd webdis
 }
