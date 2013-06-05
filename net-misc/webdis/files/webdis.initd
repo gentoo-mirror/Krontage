@@ -1,0 +1,20 @@
+#!/sbin/runscript
+# Copyright 1999-2013 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+depend() {
+
+}
+
+start() {
+
+    checkpath   -d /run/webdis -d /var/log/webdis -o webdis
+    start-stop-daemon   --start --exec webdis --pidfile /run/webdis/webdis.pid --user webdis --progress --background --make-pidfile --stdout /var/log/webdis/webdis.log --stderr /var/log/webdis/webdis.log
+
+}
+
+stop() {
+    start-stop-daemon   --stop --exec webdis --pidfile /run/webdis/webdis.pid --progress --retry SIGTERM/5
+}
+
