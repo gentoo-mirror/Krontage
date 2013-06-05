@@ -18,3 +18,11 @@ IUSE=""
 
 DEPEND="dev-libs/libevent"
 RDEPEND="${DEPEND}"
+
+pkg_preinst()
+{
+	enewgroup webdis
+	enewuser webdis
+
+	newinitd ${FILESDIR}/webdis.initd webdis
+}
