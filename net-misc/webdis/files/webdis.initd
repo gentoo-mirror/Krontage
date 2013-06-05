@@ -3,10 +3,6 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-depend() {
-
-}
-
 start() {
 
     checkpath   -d /run/webdis -d /var/log/webdis -o webdis
