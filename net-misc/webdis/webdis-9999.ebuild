@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit	git-2
+inherit	git-2 user
 
 DESCRIPTION="A fast HTTP interface for Redis"
 HOMEPAGE="http://webd.is/"
