@@ -6,11 +6,11 @@
 start() {
 
     checkpath   -f /run/webdis.pid -f /var/log/webdis.log -o webdis
-    start-stop-daemon   --start --exec webdis --pidfile /run/webdis/webdis.pid --wait 5000 --user webdis --progress --background --make-pidfile --stdout /var/log/webdis/webdis.log --stderr /var/log/webdis/webdis.log -- /etc/webdis.json
+    start-stop-daemon   --start --exec webdis --pidfile /run/webdis.pid --wait 5000 --user webdis --progress --make-pidfile --stdout /var/log/webdis.log --stderr /var/log/webdis.log -- /etc/webdis.json
 
 }
 
 stop() {
-    start-stop-daemon   --stop --exec webdis --pidfile /run/webdis/webdis.pid --progress --retry SIGTERM/5
+    start-stop-daemon   --stop --exec webdis --pidfile /run/webdis.pid --progress --retry SIGTERM/5
 }
 
