@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit	git
+inherit	git-2
 
 DESCRIPTION="A fast HTTP interface for Redis"
 HOMEPAGE="http://webd.is/"
@@ -16,7 +16,5 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="dev-vcs/git
-dev-libs/libevent"
+DEPEND="dev-libs/libevent"
 RDEPEND="${DEPEND}"
-
