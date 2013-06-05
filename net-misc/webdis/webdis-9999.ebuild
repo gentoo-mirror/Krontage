@@ -16,6 +16,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="dev-vcs/git"
+DEPEND="dev-vcs/git
+dev-libs/libevent"
 RDEPEND="${DEPEND}"
 
