@@ -7,7 +7,7 @@ EAPI=5
 inherit	user
 
 MY_PN="ArangoDB"
-S=${S/${PV}/${MY_PV}}
+S=${S/${PV}/${MY_PN}}
 
 DESCRIPTION="ArangoDB is a universal open-source database with flexible data
 model for documents, graphs, and key-values."
