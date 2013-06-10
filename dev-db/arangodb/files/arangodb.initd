@@ -1,9 +1,5 @@
 #!/sbin/runscript
 
-depend() {
-	need net
-}
-
 start() {
 	ebegin "Starting ArangoDB"
 	start-stop-daemon \
@@ -12,12 +8,14 @@ start() {
 		--pidfile /var/run/arangod.pid \
 		--make-pidfile \
 		--user arangodb \
-		--background
+		--background \
+        --wait 5000 \
+        --progress
 	eend $? "Failed to start ArangoDB"
 }
 
 stop() {
 	ebegin "Stopping ArangoDB"
-	start-stop-daemon --stop --pidfile /var/run/arangod.pid
+	start-stop-daemon --stop --pidfile /var/run/arangod.pid --retry SIGTERM/5
 	eend $? "Failed to stop ArangoDB"
 }
