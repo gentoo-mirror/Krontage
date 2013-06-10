@@ -7,12 +7,12 @@ EAPI=5
 inherit	user
 
 MY_PN="ArangoDB"
-S=${WORKDIR}/${MY_PN}-${PV}
+MY_P="${MY_PN}-${PV}"
 
 DESCRIPTION="ArangoDB is a universal open-source database with flexible data
 model for documents, graphs, and key-values."
 HOMEPAGE="http://www.arangodb.org/"
-SRC_URI="https://www.arangodb.org/repositories/stable/Source/${MY_PN}-${PV}.tar.gz"
+SRC_URI="https://www.arangodb.org/repositories/stable/Source/${MY_P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -25,6 +25,8 @@ DEPEND=">=dev-libs/libev-4.04
 	>=dev-libs/openssl-1.0.0j
 	>=dev-libs/icu-49.1.2"
 RDEPEND="${DEPEND}"
+
+S="${WORKDIR}/${MY_P}"
 
 pkg_setup() {
 	ebegin "Creating arangodb user and group"
