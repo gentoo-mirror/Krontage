@@ -5,12 +5,16 @@
 
 start() {
 
-        checkpath   -f /var/log/webdis.log -o webdis
-        start-stop-daemon   --start --exec webdis --name webdis --user webdis --progress -- /etc/webdis.json
+    checkpath   -f /var/log/webdis.log -o webdis
+    if pidof webdis;then
+        ewarn "webdis already running, trying to restart it"
+        start-stop-daemon   --stop --exec webdis --name webdis --progress --retry SIGTERM/5
+    fi
+    start-stop-daemon   --start --exec webdis --name webdis --user webdis --progress -- /etc/webdis.json
 
 }
 
 stop() {
-        start-stop-daemon   --stop --exec webdis --name webdis --progress --retry SIGTERM/5
+    start-stop-daemon   --stop --exec webdis --name webdis --progress --retry SIGTERM/5
 }
 
