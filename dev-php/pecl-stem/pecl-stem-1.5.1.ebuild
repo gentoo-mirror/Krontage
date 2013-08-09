@@ -20,5 +20,5 @@ KEYWORDS="~amd64 ~x86"
 
 DEPEND="dev-lang/php[curl,hash,ssl]"
 RDEPEND="${DEPEND}"
-IUSE="php_targets_php5-3"
+IUSE="+php_targets_php5-3"
 
