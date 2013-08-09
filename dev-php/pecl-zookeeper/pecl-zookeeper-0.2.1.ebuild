@@ -19,7 +19,7 @@ KEYWORDS="~amd64 ~x86"
 DEPEND="dev-lang/php[curl,hash,ssl] ( || ( dev-libs/libzookeeper
 sys-cluster/zookeeper ) )"
 RDEPEND="${DEPEND}"
-IUSE=""
+IUSE="+php_targets_php5-3"
 
 #my_conf="--with-libzookeeper-dir=/home/www/utinet/zookeeper-devel/src/c/"
 #need_php_by_category
