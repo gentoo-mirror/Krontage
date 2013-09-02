@@ -24,6 +24,8 @@ dev-libs/judy
 RDEPEND="${DEPEND}"
 
 src_configure() {
+		einfo ${ECONF_SOURCE}
+		ls -l ${ECONF_SOURCE}
 	if [[ -x ${ECONF_SOURCE}/buildconf.sh ]] ;then
 		einfo ${ECONF_SOURCE}
 		ls -l ${ECONF_SOURCE}
