@@ -24,14 +24,8 @@ dev-libs/judy
 RDEPEND="${DEPEND}"
 
 src_configure() {
-		einfo ${ECONF_SOURCE}
-		einfo ${EGIT_SOURCEDIR}
-		ls -l ${ECONF_SOURCE}
-		ls -l ${EGIT_SOURCEDIR}
-	if [[ -x ${ECONF_SOURCE}/buildconf.sh ]] ;then
-		einfo ${ECONF_SOURCE}
-		ls -l ${ECONF_SOURCE}
-		${ECONF_SOURCE}/buildconf.sh
+	if [[ -x ${EGIT_SOURCEDIR}/buildconf.sh ]] ;then
+		${EGIT_SOURCEDIR}/buildconf.sh
 	fi
 	if [[ -x ${ECONF_SOURCE:-.}/configure ]] ; then
 		econf
