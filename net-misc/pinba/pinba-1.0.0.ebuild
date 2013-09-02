@@ -12,6 +12,10 @@ HOMEPAGE="http://pinba.org/"
 SRC_URI="http://cdn.mysql.com/Downloads/MySQL-5.1/mysql-5.1.71.tar.gz"
 EGIT_REPO_URI="https://github.com/tony2001/pinba_engine.git"
 
+MYSQL_PN='mysql'
+MYSQL_PV='5.1.71'
+MYSQL_P="${MYSQL_PN}-${MYSQL_PV}"
+
 LICENSE="GNU GPL"
 SLOT="0"
 KEYWORDS="~amd64"
@@ -29,7 +33,7 @@ src_configure() {
 		${EGIT_SOURCEDIR}/buildconf.sh
 	fi
 	if [[ -x ${ECONF_SOURCE:-.}/configure ]] ; then
-		econf
+		econf --with-mysql ${WORKDIR}/${MYSQL_P}
 	fi
 }
 
