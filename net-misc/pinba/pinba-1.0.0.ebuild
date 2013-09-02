@@ -9,12 +9,7 @@ inherit git-2
 DESCRIPTION="Pinba (PHP Is Not A Bottleneck Anymore) is a statistics server
 using MySQL as an interface."
 HOMEPAGE="http://pinba.org/"
-SRC_URI="http://cdn.mysql.com/Downloads/MySQL-5.1/mysql-5.1.71.tar.gz"
 EGIT_REPO_URI="https://github.com/tony2001/pinba_engine.git"
-
-MYSQL_PN='mysql'
-MYSQL_PV='5.1.71'
-MYSQL_P="${MYSQL_PN}-${MYSQL_PV}"
 
 LICENSE="GNU GPL"
 SLOT="0"
@@ -28,19 +23,16 @@ dev-libs/judy
 "
 RDEPEND="${DEPEND}"
 
-src_configure() {
+
+src_prepare() {
 	if [[ -x ${EGIT_SOURCEDIR}/buildconf.sh ]] ;then
 		${EGIT_SOURCEDIR}/buildconf.sh
 	fi
-##	if [[ -e ${WORKDIR}/${MYSQL_P} ]] ;then
-##		cd ${WORKDIR}/${MYSQL_P}
-##		econf
-##		cd ${WORKDIR}/${MYSQL_P}/include
-##		emake
-##		cd -
-##	fi
+	epatch "${FILESDIR}"/configure.patch
+}
+
+src_configure() {
 	if [[ -x ${ECONF_SOURCE:-.}/configure ]] ; then
-		##econf --with-mysql=${WORKDIR}/${MYSQL_P}
 		econf --with-mysql=/usr/include/mysql
 	fi
 }
