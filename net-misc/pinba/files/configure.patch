@@ -1,5 +1,5 @@
 --- configure	2013-09-02 14:31:44.000000000 +0400
-+++ configure	2013-09-02 17:40:41.000000000 +0400
++++ configure	2013-09-02 17:43:39.000000000 +0400
 @@ -15633,7 +15633,7 @@
  
    with_mysql=`dir_resolve "$with_mysql"`
@@ -9,7 +9,7 @@
    for file in $HEADERS; do
      if ! test -r "$with_mysql/$file"; then
        as_fn_error $? "Failed to find required header file $file in $with_mysql, check the path and make sure you've run './configure ..<options>.. && cd include && make' in MySQL sources dir" "$LINENO" 5
-@@ -15658,13 +15658,13 @@
+@@ -15658,13 +15658,12 @@
  /* end confdefs.h.  */
  
  #include <stdlib.h>
@@ -23,7 +23,6 @@
 +else
    exit(1);
 -#endif
-+endif
  }
  
  _ACEOF
