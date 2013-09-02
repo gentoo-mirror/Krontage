@@ -24,8 +24,8 @@ dev-libs/judy
 RDEPEND="${DEPEND}"
 
 src_configure() {
-	if [[ -x ${ECONF_SORCE}/buildconf.sh ]] ;then
-		${ECONF_SORCE}/buildconf.sh
+	if [[ -x ${ECONF_SOURCE}/buildconf.sh ]] ;then
+		${ECONF_SOURCE}/buildconf.sh
 	fi
 	if [[ -x ${ECONF_SOURCE:-.}/configure ]] ; then
 		econf
