@@ -25,6 +25,7 @@ RDEPEND="${DEPEND}"
 
 pkg_setup() {
 	# ugly mysql headers hack
+	einfo "creating symlinks of mysql header files under /usr/include/mysql"
 	for header in my_bitmap.h my_compare.h myisampack.h ft_global.h;do
 	if [[ -e /usr/include/mysql/private/${header} ]] ;then
 		ln -sv /usr/include/mysql/private/${header} /usr/include/mysql/${header}
