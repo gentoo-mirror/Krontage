@@ -33,6 +33,8 @@ src_configure() {
 		${EGIT_SOURCEDIR}/buildconf.sh
 	fi
 	if [[ -e ${WORKDIR}/${MYSQL_P} ]] ;then
+		cd ${WORKDIR}/${MYSQL_P}
+		econf
 		cd ${WORKDIR}/${MYSQL_P}/include
 		emake
 		cd -
