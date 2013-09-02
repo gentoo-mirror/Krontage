@@ -32,6 +32,11 @@ src_configure() {
 	if [[ -x ${EGIT_SOURCEDIR}/buildconf.sh ]] ;then
 		${EGIT_SOURCEDIR}/buildconf.sh
 	fi
+	if [[ -e ${WORKDIR}/${MYSQL_P} ]] ;then
+		cd ${WORKDIR}/${MYSQL_P}
+		emake
+		cd -
+	fi
 	if [[ -x ${ECONF_SOURCE:-.}/configure ]] ; then
 		econf --with-mysql=${WORKDIR}/${MYSQL_P}
 	fi
