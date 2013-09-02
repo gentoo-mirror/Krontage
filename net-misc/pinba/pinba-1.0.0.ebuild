@@ -28,6 +28,7 @@ src_prepare() {
 	if [[ -x ${EGIT_SOURCEDIR}/buildconf.sh ]] ;then
 		${EGIT_SOURCEDIR}/buildconf.sh
 	fi
+	einfo 'applying configure patch'
 	epatch "${FILESDIR}"/configure.patch
 }
 
