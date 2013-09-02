@@ -9,6 +9,7 @@ inherit git-2
 DESCRIPTION="Pinba (PHP Is Not A Bottleneck Anymore) is a statistics server
 using MySQL as an interface."
 HOMEPAGE="http://pinba.org/"
+SRC_URI="http://cdn.mysql.com/Downloads/MySQL-5.1/mysql-5.1.71.tar.gz"
 EGIT_REPO_URI="https://github.com/tony2001/pinba_engine.git"
 
 LICENSE="GNU GPL"
