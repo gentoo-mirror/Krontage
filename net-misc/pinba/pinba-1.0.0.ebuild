@@ -23,6 +23,14 @@ dev-libs/judy
 "
 RDEPEND="${DEPEND}"
 
+pkg_setup() {
+	# ugly mysql headers hack
+	for header in my_bitmap.h my_compare.h myisampack.h ft_global.h;do
+	if [[ -e /usr/include/mysql/private/${header} ]] ;then
+		dosym /usr/include/mysql/private/${header} ${D}/usr/include/mysql/
+	fi
+	done
+}
 
 src_prepare() {
 	if [[ -x ${EGIT_SOURCEDIR}/buildconf.sh ]] ;then
@@ -30,14 +38,6 @@ src_prepare() {
 	fi
 	epatch "${FILESDIR}"/configure.patch
 	epatch "${FILESDIR}"/ha_pinba.cc.patch
-
-	# ugly mysql headers hack
-	for header in my_bitmap.h my_compare.h myisampack.h ft_global.h;do
-	if [[ -e /usr/include/mysql/private/${header} ]] ;then
-		dosym /usr/include/mysql/private/${header} ${D}/usr/include/mysql/
-	fi
-	done
-
 }
 
 src_configure() {
