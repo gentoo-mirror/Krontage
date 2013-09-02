@@ -34,8 +34,7 @@ src_prepare() {
 	# ugly mysql headers hack
 	for header in my_bitmap.h my_compare.h myisampack.h ft_global.h;do
 	if [[ -e /usr/include/mysql/private/${header} ]] ;then
-		dosym /usr/include/mysql/private/${header} /usr/include/mysql/
-		ln -s /usr/include/mysql/private/${header} /usr/include/mysql/
+		dosym /usr/include/mysql/private/${header} ${D}/usr/include/mysql/
 	fi
 	done
 
