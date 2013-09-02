@@ -4,10 +4,12 @@
 
 EAPI=4
 
+inherit git-2
+
 DESCRIPTION="Pinba (PHP Is Not A Bottleneck Anymore) is a statistics server
 using MySQL as an interface."
 HOMEPAGE="http://pinba.org/"
-SRC_URI="https://github.com/tony2001/pinba_engine/tarball/master"
+EGIT_REPO_URI="https://github.com/tony2001/pinba_engine.git"
 
 LICENSE="GNU GPL"
 SLOT="0"
