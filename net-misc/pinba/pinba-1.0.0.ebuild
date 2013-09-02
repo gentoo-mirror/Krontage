@@ -25,6 +25,8 @@ RDEPEND="${DEPEND}"
 
 src_configure() {
 	if [[ -x ${ECONF_SOURCE}/buildconf.sh ]] ;then
+		einfo ${ECONF_SOURCE}
+		ls -l ${ECONF_SOURCE}
 		${ECONF_SOURCE}/buildconf.sh
 	fi
 	if [[ -x ${ECONF_SOURCE:-.}/configure ]] ; then
