@@ -33,7 +33,7 @@ src_configure() {
 		${EGIT_SOURCEDIR}/buildconf.sh
 	fi
 	if [[ -x ${ECONF_SOURCE:-.}/configure ]] ; then
-		econf --with-mysql ${WORKDIR}/${MYSQL_P}
+		econf --with-mysql=${WORKDIR}/${MYSQL_P}
 	fi
 }
 
