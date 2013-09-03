@@ -61,6 +61,8 @@ src_install() {
 			mkdir -p $(dirname ${f})
 		fi
 		echo "extension=${PHP_EXT_NAME}.so" >> ${f}
+		insinto /$(dirname ${f})
+		doins "${f}"
 	done
 
 	for inifile in ${PHPINIFILELIST} ; do
