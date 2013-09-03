@@ -34,7 +34,7 @@ src_prepare() {
 
 src_configure() {
 	econf --enable-pinba=/usr/include/google --prefix="${D}"
-	epatch "${FILESDIR}"/makefile.patch
+#	epatch "${FILESDIR}"/makefile.patch
 }
 
 src_test() {
