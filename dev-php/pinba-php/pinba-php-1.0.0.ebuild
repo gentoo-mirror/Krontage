@@ -5,7 +5,7 @@
 EAPI=4
 
 PHP_EXT_NAME="pinba"
-inherit git-2
+inherit git-2 eutils
 
 DESCRIPTION="Pinba PHP Extension"
 HOMEPAGE="http://pinba.org/"
