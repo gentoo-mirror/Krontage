@@ -20,3 +20,7 @@ DEPEND="dev-lang/php
 dev-libs/protobuf"
 RDEPEND="${DEPEND}"
 
+src_configure() {
+	phpize
+	econf --enable-pinba=/usr/include/google/protobuf
+}
