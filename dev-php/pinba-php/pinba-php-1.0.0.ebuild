@@ -26,12 +26,11 @@ src_prepare() {
 	libtoolize --force
 	autoheader
 	autoconf
-
-	epatch "${FILESDIR}"/makefile.patch
 }
 
 src_configure() {
 	econf --enable-pinba=/usr/include/google --prefix="${D}"
+	epatch "${FILESDIR}"/makefile.patch
 }
 
 src_test() {
