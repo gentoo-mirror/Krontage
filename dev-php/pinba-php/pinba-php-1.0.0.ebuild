@@ -23,6 +23,7 @@ RDEPEND="${DEPEND}"
 my_conf='--enable-pinba=/usr/include/google'
 
 php-ext-source-r2_src_unpack() {
+	cd ${PHP_EXT_S}
 	phpize
 	aclocal
 	libtoolize --force
