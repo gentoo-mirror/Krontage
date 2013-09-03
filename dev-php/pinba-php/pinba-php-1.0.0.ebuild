@@ -49,6 +49,21 @@ src_install() {
 		[[ -s "${d}" ]]	&& dodoc "${d}"
 	done
 
+	PHPINI=''
+	for a in apache2 cli cgi fpm;do
+		if [[ -f "/etc/php/${a}-${PHP_V}/php.ini" ]];then
+			PHPINI="${PHPINI} etc/php/${a}-${PHP_V}/ext/${PHP_EXT_NAME}.ini"
+			[[ -d "${D}/etc/php/${a}-${PHP_V}/ext" ]] || mkdir -p "${D}/etc/php/${a}-${PHP_V}/ext"
+			echo "extension=${PHP_EXT_NAME}.so" >> "${D}/etc/php/${a}-${PHP_V}/ext/${PHP_EXT_NAME}.ini"
+		fi
+	done
 
+}
+
+pkg_postinst() {
+	for ini in ${PHPINI};do
+		INITARGET=${ini/ext/ext-active}
+		dosym ${ini} ${INITARGET}
+	done
 }
 
