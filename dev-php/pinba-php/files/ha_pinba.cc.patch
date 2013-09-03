@@ -1,0 +1,29 @@
+--- src/ha_pinba.cc	2013-06-13 11:41:33.000000000 +0400
++++ src/ha_pinba.cc	2013-09-02 18:01:56.000000000 +0400
+@@ -32,17 +32,18 @@
+ 
+ #define MYSQL_SERVER 1
+ #ifdef PINBA_ENGINE_MYSQL_VERSION_5_5
+-# include <include/mysql_version.h>
+-# include <sql/field.h>
+-# include <sql/structs.h>
+-# include <sql/handler.h>
++# include <mysql/mysql_version.h>
++# include <mysql/private/my_bitmap.h>
++# include <mysql/private/field.h>
++# include <mysql/private/structs.h>
++# include <mysql/private/handler.h>
+ #else
+-# include <mysql_priv.h>
++# include <mysql/mysql_priv.h>
+ #endif
+-#include <my_dir.h>
++#include <mysql/my_dir.h>
+ #include <mysql/plugin.h>
+-#include <mysql.h>
+-#include <my_pthread.h>
++#include <mysql/mysql.h>
++#include <mysql/my_pthread.h>
+ 
+ #include "ha_pinba.h"
+ 
