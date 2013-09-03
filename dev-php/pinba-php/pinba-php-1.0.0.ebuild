@@ -29,7 +29,7 @@ src_prepare() {
 }
 
 src_configure() {
-	econf --enable-pinba=/usr/include/google
+	econf --enable-pinba=/usr/include/google --prefix="${D}"
 }
 
 src_test() {
