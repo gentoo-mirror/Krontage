@@ -56,6 +56,7 @@ src_install() {
 		fi
 	done
 
+	PHP_VERSION='5.3'
 	einfo "php version: ${PHP_VERSION} PHPINIFILELIST: ${PHPINIFILELIST}"
 	for f in ${PHPINIFILELIST};do
 		if [[ ! -d $(dirname ${f}) ]];then
