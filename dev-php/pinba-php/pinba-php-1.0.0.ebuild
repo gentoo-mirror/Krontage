@@ -20,4 +20,7 @@ DEPEND="dev-lang/php
 dev-libs/protobuf"
 RDEPEND="${DEPEND}"
 
+src_prepare() {
+	phpize
+}
 
