@@ -5,7 +5,7 @@
 EAPI=4
 
 PHP_EXT_NAME="pinba"
-inherit git-2 depend.php
+inherit git-2
 
 DESCRIPTION="Pinba PHP Extension"
 HOMEPAGE="http://pinba.org/"
@@ -45,35 +45,6 @@ src_install() {
 		[[ -s "${d}" ]]	&& dodoc "${d}"
 	done
 
-	has_php
-	if [[ -z "${PHPSAPILIST}" ]] ; then
-		PHPSAPILIST="apache2 cli cgi fpm"
-	fi
-	PHPINIFILELIST=""
-	for x in ${PHPSAPILIST} ; do
-		if [[ -f "/etc/php/${x}-php${PHP_VERSION}/php.ini" ]] ; then
-			PHPINIFILELIST="${PHPINIFILELIST} etc/php/${x}-php${PHP_VERSION}/ext/${PHP_EXT_NAME}.ini"
-		fi
-	done
-
-	PHP_VERSION='5.3'
-	einfo "php version: ${PHP_VERSION} PHPINIFILELIST: ${PHPINIFILELIST}"
-	for f in ${PHPINIFILELIST};do
-		if [[ ! -d $(dirname ${f}) ]];then
-			mkdir -p $(dirname ${f})
-		fi
-		echo "extension=${PHP_EXT_NAME}.so" >> ${f}
-		insinto /$(dirname ${f})
-		doins "${f}"
-		einfo "inserted to /${f}"
-	done
-
-	for inifile in ${PHPINIFILELIST} ; do
-		inidir="${inifile/${PHP_EXT_NAME}.ini/}"
-		inidir="${inidir/ext/ext-active}"
-		dodir "/${inidir}"
-		dosym "/${inifile}" "/${inifile/ext/ext-active}"
-	done
 
 }
 
