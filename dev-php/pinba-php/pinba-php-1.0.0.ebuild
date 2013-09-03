@@ -26,6 +26,6 @@ src_prepare() {
 }
 
 src_configure() {
-	econf --enable-pinba
+	econf --with-mysql=/usr/include/mysql --libdir=/usr/lib/mysql/plugin
 }
 
