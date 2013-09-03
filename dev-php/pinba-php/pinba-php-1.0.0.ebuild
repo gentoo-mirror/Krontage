@@ -34,7 +34,7 @@ src_prepare() {
 
 src_configure() {
 	econf --enable-pinba=/usr/include/google --prefix="${D}"
-	epatch "${FILESDIR}"/makefile.patch
+#	epatch "${FILESDIR}"/makefile.patch
 }
 
 src_test() {
@@ -42,7 +42,7 @@ src_test() {
 }
 
 src_install() {
-	emake PHP_VERSION="${PHP_V}" DESTDIR="${D}" install
+	emake DESTDIR="${D}" install
 
 	local d
 	for d in CREDITS NEWS README; do
