@@ -26,6 +26,8 @@ src_prepare() {
 	libtoolize --force
 	autoheader
 	autoconf
+
+	epatch "${FILESDIR}"/makefile.patch
 }
 
 src_configure() {
