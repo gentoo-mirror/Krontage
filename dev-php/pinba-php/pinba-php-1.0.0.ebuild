@@ -58,9 +58,6 @@ src_install() {
 		fi
 	done
 
-}
-
-pkg_postinst() {
 	for ini in ${PHPINI};do
 		INITARGET=${ini/ext/ext-active}
 		dosym /${ini} /${INITARGET}
