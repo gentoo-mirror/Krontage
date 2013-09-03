@@ -35,3 +35,13 @@ src_configure() {
 src_test() {
 	emake test
 }
+
+src_install() {
+	emake DESTDIR="${D}" install
+
+	local d
+	for d in CREDITS NEWS README; do
+		[[ -s "${d}" ]]	&& dodoc "${d}"
+	done
+}
+
