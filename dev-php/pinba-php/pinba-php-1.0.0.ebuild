@@ -16,6 +16,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="dev-lang/php"
+DEPEND="dev-lang/php
+dev-libs/protobuf"
 RDEPEND="${DEPEND}"
 
