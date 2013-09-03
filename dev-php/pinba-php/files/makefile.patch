@@ -1,11 +1,11 @@
---- Makefile    2013-09-03 14:39:12.005553347 +0400
-+++ Makefile    2013-09-03 14:39:01.898938564 +0400
+--- Makefile	2013-09-03 14:43:28.764239090 +0400
++++ Makefile.bkp	2013-09-03 14:44:15.337333894 +0400
 @@ -31,7 +31,7 @@
  CXX =
  CXXFLAGS = -O2 -pipe -march=core2 -fomit-frame-pointer
  CXXFLAGS_CLEAN = $(CXXFLAGS)
- -EXTENSION_DIR = /usr/lib64/php5.3/lib/extensions/no-debug-non-zts-20090626
- +EXTENSION_DIR = ${DESTDIR}/usr/lib64/php5.3/lib/extensions/no-debug-non-zts-20090626
+-EXTENSION_DIR = /usr/lib64/php5.3/lib/extensions/no-debug-non-zts-20090626
++EXTENSION_DIR = ${DESTDIR}/usr/lib64/php5.3/lib/extensions/no-debug-non-zts-20090626
  PHP_EXECUTABLE = /usr/lib64/php5.3/bin/php
  EXTRA_LDFLAGS =
  EXTRA_LIBS =
