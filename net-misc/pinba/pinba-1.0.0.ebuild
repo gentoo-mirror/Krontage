@@ -47,3 +47,10 @@ src_configure() {
 	fi
 }
 
+src_install() {
+	emake install
+	for doc in COPYING NEWS README TODO default_tables.sql;do
+		dodoc ${doc}
+	done
+}
+
