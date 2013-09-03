@@ -1,5 +1,5 @@
 --- Makefile	2013-09-03 14:43:28.764239090 +0400
-+++ Makefile.bkp	2013-09-03 14:44:15.337333894 +0400
++++ Makefile	2013-09-03 14:44:15.337333894 +0400
 @@ -31,7 +31,7 @@
  CXX =
  CXXFLAGS = -O2 -pipe -march=core2 -fomit-frame-pointer
