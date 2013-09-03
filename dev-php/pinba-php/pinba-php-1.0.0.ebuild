@@ -21,6 +21,7 @@ dev-libs/protobuf"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
+	./buildconf.sh
 	phpize
 }
 
