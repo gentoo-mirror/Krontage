@@ -5,7 +5,7 @@
 EAPI=4
 
 PHP_EXT_NAME="pinba"
-inherit git-2 php-ext-source-r2
+inherit git-2 php-ext-base-r1
 
 DESCRIPTION="Pinba PHP Extension"
 HOMEPAGE="http://pinba.org/"
@@ -20,5 +20,4 @@ DEPEND="dev-lang/php
 dev-libs/protobuf"
 RDEPEND="${DEPEND}"
 
-php-ext-source-r2_phpize
 
