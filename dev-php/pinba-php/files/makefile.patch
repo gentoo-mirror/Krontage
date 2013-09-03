@@ -1,41 +1,41 @@
---- Makefile	2013-09-03 16:07:48.248273987 +0400
-+++ Makefile	2013-09-03 16:11:08.990579685 +0400
+--- Makefile	2013-09-03 16:19:52.201226226 +0400
++++ Makefile	2013-09-03 16:20:51.430923059 +0400
 @@ -2,6 +2,7 @@
- builddir = /root/pinba_extension
- top_srcdir = /root/pinba_extension
- top_builddir = /root/pinba_extension
+ builddir = /var/tmp/portage/dev-php/pinba-php-1.0.0/work/pinba-php-1.0.0
+ top_srcdir = /var/tmp/portage/dev-php/pinba-php-1.0.0/work/pinba-php-1.0.0
+ top_builddir = /var/tmp/portage/dev-php/pinba-php-1.0.0/work/pinba-php-1.0.0
 +PHP_VERSION = php5.3
  EGREP = /bin/grep -E
  SED = /bin/sed
- CONFIGURE_COMMAND = './configure'
+ CONFIGURE_COMMAND = './configure' '--prefix=/usr' '--build=x86_64-pc-linux-gnu' '--host=x86_64-pc-linux-gnu' '--mandir=/usr/share/man' '--infodir=/usr/share/info' '--datadir=/usr/share' '--sysconfdir=/etc' '--localstatedir=/var/lib' '--libdir=/var/tmp/portage/dev-php/pinba-php-1.0.0/image/lib64' '--enable-pinba=/usr/include/google' '--prefix=/var/tmp/portage/dev-php/pinba-php-1.0.0/image/'
 @@ -17,12 +18,12 @@
  PHP_ZEND_EX =
  all_targets = $(PHP_MODULES) $(PHP_ZEND_EX)
  install_targets = install-modules install-headers
 -prefix = /usr/lib64/php5.3
-+prefix = /usr/lib64/${PHP_VERSION}
++prefix = /usr/lib64/$(PHP_VERSION)
  exec_prefix = $(prefix)
- libdir = ${exec_prefix}/lib
+ libdir = /var/tmp/portage/dev-php/pinba-php-1.0.0/image/lib64
 -prefix = /usr/lib64/php5.3
-+prefix = /usr/lib64/${PHP_VERSION}
- phplibdir = /root/pinba_extension/modules
++prefix = /usr/lib64/$(PHP_VERSION)
+ phplibdir = /var/tmp/portage/dev-php/pinba-php-1.0.0/work/pinba-php-1.0.0/modules
 -phpincludedir = /usr/lib64/php5.3/include/php
-+phpincludedir = /usr/lib64/${PHP_VERSION}/include/php
- CC = cc
- CFLAGS = -g -O2
++phpincludedir = /usr/lib64/$(PHP_VERSION)/include/php
+ CC = x86_64-pc-linux-gnu-gcc
+ CFLAGS = -O2 -pipe -march=core2 -fomit-frame-pointer
  CFLAGS_CLEAN = $(CFLAGS)
 @@ -31,11 +32,11 @@
  CXX =
- CXXFLAGS =
+ CXXFLAGS = -O2 -pipe -march=core2 -fomit-frame-pointer
  CXXFLAGS_CLEAN = $(CXXFLAGS)
 -EXTENSION_DIR = /usr/lib64/php5.3/lib/extensions/no-debug-non-zts-20090626
 -PHP_EXECUTABLE = /usr/lib64/php5.3/bin/php
-+EXTENSION_DIR = ${DESTDIR}/usr/lib64/${PHP_VERSION}/lib/extensions/no-debug-non-zts-20090626
-+PHP_EXECUTABLE = /usr/lib64/${PHP_VERSION}/bin/php
++EXTENSION_DIR = $(DESTDIR)/usr/lib64/$(PHP_VERSION)/lib/extensions/no-debug-non-zts-20090626
++PHP_EXECUTABLE = /usr/lib64/$(PHP_VERSION)/bin/php
  EXTRA_LDFLAGS =
  EXTRA_LIBS =
 -INCLUDES = -I/usr/lib64/php5.3/include/php -I/usr/lib64/php5.3/include/php/main -I/usr/lib64/php5.3/include/php/TSRM -I/usr/lib64/php5.3/include/php/Zend -I/usr/lib64/php5.3/include/php/ext -I/usr/lib64/php5.3/include/php/ext/date/lib
-+INCLUDES = -I/usr/lib64/${PHP_VERSION}/include/php -I/usr/lib64/${PHP_VERSION}/include/php/main -I/usr/lib64/${PHP_VERSION}/include/php/TSRM -I/usr/lib64/${PHP_VERSION}/include/php/Zend -I/usr/lib64/${PHP_VERSION}/include/php/ext -I/usr/lib64/${PHP_VERSION}/include/php/ext/date/lib
++INCLUDES = -I/usr/lib64/$(PHP_VERSION)/include/php -I/usr/lib64/$(PHP_VERSION)/include/php/main -I/usr/lib64/$(PHP_VERSION)/include/php/TSRM -I/usr/lib64/$(PHP_VERSION)/include/php/Zend -I/usr/lib64/$(PHP_VERSION)/include/php/ext -I/usr/lib64/$(PHP_VERSION)/include/php/ext/date/lib
  LFLAGS =
- LDFLAGS =
+ LDFLAGS = -Wl,-O1 -Wl,--as-needed
  SHARED_LIBTOOL =
