@@ -4,6 +4,7 @@
 
 EAPI=4
 
+PHP_EXT_NAME="pinba"
 inherit git-2 php-ext-source-r2
 
 DESCRIPTION="Pinba PHP Extension"
