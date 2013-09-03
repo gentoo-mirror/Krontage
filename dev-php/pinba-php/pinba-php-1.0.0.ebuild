@@ -22,5 +22,9 @@ RDEPEND="${DEPEND}"
 
 src_configure() {
 	phpize
-	econf --enable-pinba=/usr/include/google/protobuf
+	aclocal
+	libtoolize --force
+	autoheader
+	autoconf
+	econf --enable-pinba=/usr/include/google
 }
