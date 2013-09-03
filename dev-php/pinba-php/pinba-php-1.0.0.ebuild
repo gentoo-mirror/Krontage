@@ -5,7 +5,7 @@
 EAPI=4
 
 PHP_EXT_NAME="pinba"
-inherit git-2 php-ext-source-r2 eutils
+inherit git-2 eutils php-ext-base-r1
 
 DESCRIPTION="Pinba PHP Extension"
 HOMEPAGE="http://pinba.org/"
@@ -20,31 +20,15 @@ DEPEND="dev-lang/php
 dev-libs/protobuf"
 RDEPEND="${DEPEND}"
 
-my_conf='--enable-pinba=/usr/include/google'
-
-##php-ext-source-r2_src_unpack() {
-##	local slot orig_s="${PHP_EXT_S}"
-##	for slot in $(php_get_slots); do
-##		cp -r "${orig_s}" "${WORKDIR}/${slot}" || die
-##		"Failed to copy source ${orig_s} to PHP target
-##		directory"
-##	done
-####	phpize
-####	aclocal
-####	libtoolize --force
-####	autoheader
-####	autoconf
-##}
-
-php-ext-source-r2_src_prepare() {
-	local slot orig_s="${PHP_EXT_S}"
-	for slot in $(php_get_slots); do
-		php_init_slot_env ${slot}
-		php-ext-source-r2_phpize
-
-		eaclocal
-		elibtoolize --force
-		eautoheader
-		eautoconf
-	done
+src_prepare() {
+	phpize
+	eaclocal
+	elibtoolize --force
+	eautoheader
+	eautoconf
 }
+
+src_configure() {
+	econf --enable-pinba=/usr/include/google
+}
+
