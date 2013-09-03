@@ -20,3 +20,5 @@ DEPEND="dev-lang/php
 dev-libs/protobuf"
 RDEPEND="${DEPEND}"
 
+php-ext-source-r2_phpize
+
