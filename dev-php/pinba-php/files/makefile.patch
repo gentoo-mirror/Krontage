@@ -1,5 +1,5 @@
 --- Makefile	2013-09-03 16:07:48.248273987 +0400
-+++ Makefile.bkp	2013-09-03 16:11:08.990579685 +0400
++++ Makefile	2013-09-03 16:11:08.990579685 +0400
 @@ -2,6 +2,7 @@
  builddir = /root/pinba_extension
  top_srcdir = /root/pinba_extension
