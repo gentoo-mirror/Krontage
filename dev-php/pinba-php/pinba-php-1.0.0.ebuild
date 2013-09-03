@@ -5,7 +5,7 @@
 EAPI=4
 
 PHP_EXT_NAME="pinba"
-inherit git-2 php-ext-base-r1
+inherit git-2 php-ext-source-r2
 
 DESCRIPTION="Pinba PHP Extension"
 HOMEPAGE="http://pinba.org/"
@@ -20,11 +20,13 @@ DEPEND="dev-lang/php
 dev-libs/protobuf"
 RDEPEND="${DEPEND}"
 
-src_configure() {
+my_conf='--enable-pinba=/usr/include/google'
+
+php-ext-source-r2_src_unpack() {
 	phpize
 	aclocal
 	libtoolize --force
 	autoheader
 	autoconf
-	econf --enable-pinba=/usr/include/google
 }
+
