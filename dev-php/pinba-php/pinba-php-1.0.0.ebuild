@@ -20,6 +20,10 @@ DEPEND="dev-lang/php
 dev-libs/protobuf"
 RDEPEND="${DEPEND}"
 
+PHP_V=$(realpath `which php`)
+PHP_V=${PHP_V#/usr/lib[2346]*/}
+PHP_V=${PHP_V%/bin/php}
+
 src_prepare() {
 	phpize
 	aclocal
@@ -38,7 +42,7 @@ src_test() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" install
+	emake PHP_VERSION="${PHP_V}" DESTDIR="${D}" install
 
 	local d
 	for d in CREDITS NEWS README; do
