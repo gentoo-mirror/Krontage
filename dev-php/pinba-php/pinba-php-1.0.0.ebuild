@@ -25,3 +25,7 @@ src_prepare() {
 	phpize
 }
 
+src_configure() {
+	econf --enable-pinba
+}
+
