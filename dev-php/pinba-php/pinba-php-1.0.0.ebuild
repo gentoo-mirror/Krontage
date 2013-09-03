@@ -9,7 +9,7 @@ inherit git-2 php-ext-base-r1
 
 DESCRIPTION="Pinba PHP Extension"
 HOMEPAGE="http://pinba.org/"
-EGIT_REPO_URI="https://github.com/tony2001/pinba_engine.wiki.git"
+EGIT_REPO_URI="https://github.com/tony2001/pinba_extension.git"
 
 LICENSE="GNU GPL"
 SLOT="0"
