@@ -22,10 +22,10 @@ RDEPEND="${DEPEND}"
 
 src_prepare() {
 	phpize
-	eaclocal
-	elibtoolize --force
-	eautoheader
-	eautoconf
+	aclocal
+	libtoolize --force
+	autoheader
+	autoconf
 }
 
 src_configure() {
