@@ -56,6 +56,7 @@ src_install() {
 		fi
 	done
 
+	einfo "php version: ${PHP_VERSION} PHPINIFILELIST: ${PHPINIFILELIST}"
 	for f in ${PHPINIFILELIST};do
 		if [[ ! -d $(dirname ${f}) ]];then
 			mkdir -p $(dirname ${f})
