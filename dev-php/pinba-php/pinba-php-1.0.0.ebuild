@@ -5,7 +5,7 @@
 EAPI=4
 
 PHP_EXT_NAME="pinba"
-inherit git-2 eutils php-ext-base-r1
+inherit git-2 depend.php
 
 DESCRIPTION="Pinba PHP Extension"
 HOMEPAGE="http://pinba.org/"
@@ -32,3 +32,6 @@ src_configure() {
 	econf --enable-pinba=/usr/include/google
 }
 
+src_test() {
+	emake test
+}
