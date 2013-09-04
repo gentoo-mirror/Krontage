@@ -55,6 +55,8 @@ src_install() {
 			PHPINI="${PHPINI} etc/php/${a}-${PHP_V}/ext/${PHP_EXT_NAME}.ini"
 			[[ -d "${D}/etc/php/${a}-${PHP_V}/ext" ]] || mkdir -p "${D}/etc/php/${a}-${PHP_V}/ext"
 			echo "extension=${PHP_EXT_NAME}.so" >> "${D}/etc/php/${a}-${PHP_V}/ext/${PHP_EXT_NAME}.ini"
+			echo "pinba.enabled=1" >> "${D}/etc/php/${a}-${PHP_V}/ext/${PHP_EXT_NAME}.ini"
+			echo "pinba.server=127.0.0.1:30002" >> "${D}/etc/php/${a}-${PHP_V}/ext/${PHP_EXT_NAME}.ini"
 		fi
 	done
 
