@@ -6,6 +6,8 @@
 version="3.4.5"
 #	user to run zookeeper
 user="zookeeper"
+# instance name, can be changed to use multiple zookeeper instances on one host
+instance_name="zookeeper"
 #	root directory of zookeeper
 root_dir="/opt/zookeeper"
 #	data dir
@@ -16,4 +18,7 @@ config="/etc/zookeeper.cfg"
 xmx="128M"
 #   java xmn size
 xmn="128M"
-
+#   pid file
+pid_file="/var/run/${instance_name}.pid"
+#   log file
+log_file="/var/log/${instance_name}.log"
