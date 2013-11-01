@@ -9,8 +9,9 @@ inherit rpm
 
 DESCRIPTION="NewRelic PHP5 Agent"
 HOMEPAGE="http://newrelic.com"
-SRC_URI="https://yum.newrelic.com/pub/newrelic/el5/x86_64/${P}-1.x86_64.rpm
-	x86? 	( https://yum.newrelic.com/pub/newrelic/el5/i386/${P}-1.i386.rpm )"
+##SRC_URI="https://yum.newrelic.com/pub/newrelic/el5/x86_64/${P}-1.x86_64.rpm
+##	x86? 	( https://yum.newrelic.com/pub/newrelic/el5/i386/${P}-1.i386.rpm )"
+SRC_URI="https://download.newrelic.com/php_agent/release/${P}-linux.tar.gz"
 
 LICENSE="newrelic Apache-2.0 MIT ISC openssl GPL-2"
 SLOT="0"
@@ -20,7 +21,7 @@ IUSE=""
 DEPEND="dev-lang/php"
 RDEPEND="${DEPEND}"
 
-S="${WORKDIR}/"
+S="${WORKDIR}/${P}-linux"
 
 pkg_setup() {
 	PHP_VERSION=$(php -v |grep 'PHP [0-9]'|sed -e 's:PHP \([^-]\+\)-\?.*:\1:')
@@ -29,6 +30,33 @@ pkg_setup() {
 	PHP_EXTENSION_DIR=$(php -i 2>/dev/null|grep ^extension_dir|sed -e 's:extension_dir => \([/a-z0-9.-]\+\).*:\1:')
 	PHP_ZTS=$(php -i 2>/dev/null|grep 'Thread Safety => '|sed -e 's:Thread Safety => \(.\+\):\1:')
 }
+
+##src_install() {
+##	[ -z "${PHP_VERSION}" ] && die "no php found"
+##	PHP_V=$(echo ${PHP_VERSION}|sed -e 's:\([0-9]\+\.[0-9]\+\).*:\1:')
+##
+##	if [ "${PHP_ZTS}" == "enabled" ];then
+##		PHP_EXTENSION_SOURCE="${PHP_EXT_NAME}-${PHP_EXTENSION}-zts.so"
+##	else
+##		PHP_EXTENSION_SOURCE="${PHP_EXT_NAME}-${PHP_EXTENSION}.so"
+##	fi
+##
+##	mkdir -p ${D}/${PHP_EXTENSION_DIR} ${T}/${PHP_EXTENSION_DIR}
+##	newbin "${S}/usr/lib/newrelic-php5/scripts/newrelic-iutil.x64" "newrelic-iutil"
+##
+##	chmod 644 "${S}/usr/lib/newrelic-php5/agent/x64/${PHP_EXTENSION_SOURCE}"
+##	cp -a "${S}/usr/lib/newrelic-php5/agent/x64/${PHP_EXTENSION_SOURCE}" "${D}/${PHP_EXTENSION_DIR}/${PHP_EXT_NAME}.so"
+##
+##	PHPINI=''
+##	for a in apache2 cli cgi fpm;do
+##		if [[ -f "/etc/php/${a}-php${PHP_V}/php.ini" ]];then
+##			PHPINI="${PHPINI} etc/php/${a}-php${PHP_V}/ext/${PHP_EXT_NAME}.ini"
+##			[[ -d "${D}/etc/php/${a}-php${PHP_V}/ext" ]] || mkdir -p "${D}/etc/php/${a}-php${PHP_V}/ext"
+##			echo "extension=${PHP_EXT_NAME}.so" > "${D}/etc/php/${a}-php${PHP_V}/ext/${PHP_EXT_NAME}.ini"
+##			echo "newrelic.license=\"\"" >> "${D}/etc/php/${a}-php${PHP_V}/ext/${PHP_EXT_NAME}.ini"
+##		fi
+##	done 
+##}
 
 src_install() {
 	[ -z "${PHP_VERSION}" ] && die "no php found"
@@ -41,10 +69,11 @@ src_install() {
 	fi
 
 	mkdir -p ${D}/${PHP_EXTENSION_DIR} ${T}/${PHP_EXTENSION_DIR}
-	newbin "${S}/usr/lib/newrelic-php5/scripts/newrelic-iutil.x64" "newrelic-iutil"
+	newbin "${S}/scripts/newrelic-iutil.x64" "newrelic-iutil"
+	newbin "${S}/daemon/newrelic-daemon.x64" "newrelic-daemon"
 
-	chmod 644 "${S}/usr/lib/newrelic-php5/agent/x64/${PHP_EXTENSION_SOURCE}"
-	cp -a "${S}/usr/lib/newrelic-php5/agent/x64/${PHP_EXTENSION_SOURCE}" "${D}/${PHP_EXTENSION_DIR}/${PHP_EXT_NAME}.so"
+	chmod 644 "${S}/agent/x64/${PHP_EXTENSION_SOURCE}"
+	cp -a "${S}/agent/x64/${PHP_EXTENSION_SOURCE}" "${D}/${PHP_EXTENSION_DIR}/${PHP_EXT_NAME}.so"
 
 	PHPINI=''
 	for a in apache2 cli cgi fpm;do
