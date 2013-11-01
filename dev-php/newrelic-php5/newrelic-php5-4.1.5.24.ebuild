@@ -39,8 +39,7 @@ src_install() {
 		PHP_EXTENSION_SOURCE="${PHP_EXT_NAME}-${PHP_EXTENSION}.so"
 	fi
 
-	mkdir -p ${T}/${PHP_EXTENSION_DIR}
-	mkdir -p ${D}/${PHP_EXTENSION_DIR}
+	mkdir -p ${D}/${PHP_EXTENSION_DIR} ${T}/${PHP_EXTENSION_DIR}
 	dolib "${S}/usr/lib/newrelic-php5/scripts/newrelic-iutil.x64"
 
 	chmod 644 "${S}/usr/lib/newrelic-php5/agent/x64/${PHP_EXTENSION_SOURCE}"
@@ -52,8 +51,8 @@ src_install() {
 			PHPINI="${PHPINI} etc/php/${a}-php${PHP_V}/ext/${PHP_EXT_NAME}.ini"
 			[[ -d "${D}/etc/php/${a}-php${PHP_V}/ext" ]] || mkdir -p "${D}/etc/php/${a}-php${PHP_V}/ext"
 			echo "extension=${PHP_EXT_NAME}.so" > "${D}/etc/php/${a}-php${PHP_V}/ext/${PHP_EXT_NAME}.ini"
-			echo "newrelic.appname='App1;App2'" >> "${D}/etc/php/${a}-php${PHP_V}/ext/${PHP_EXT_NAME}.ini"
-			echo "newrelic.licensee=''" >> "${D}/etc/php/${a}-php${PHP_V}/ext/${PHP_EXT_NAME}.ini"
+			echo "newrelic.appname=\"App1\"" >> "${D}/etc/php/${a}-php${PHP_V}/ext/${PHP_EXT_NAME}.ini"
+			echo "newrelic.licensee=\"\"" >> "${D}/etc/php/${a}-php${PHP_V}/ext/${PHP_EXT_NAME}.ini"
 		fi
 	done 
 }
