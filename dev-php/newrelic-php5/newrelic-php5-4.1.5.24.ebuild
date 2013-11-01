@@ -26,7 +26,7 @@ pkg_setup() {
 	PHP_VERSION=$(php -v |grep 'PHP [0-9]'|sed -e 's:PHP \([^-]\+\)-\?.*:\1:')
 	PHP_EXTENSION=$(php -i 2>/dev/null|grep 'PHP Extension => '|sed -e 's:PHP Extension => \(.\+\):\1:')
 	PHP_ZEND_EXTENSION=$(php -i 2>/dev/null|grep 'Zend Extension => '|sed -e 's:Zend Extension => \(.\+\):\1:')
-	PHP_EXTENSION_DIR=$(php -i 2>/dev/null|grep extension_dir|sed -e 's:extension_dir => \([/a-z0-9.-]\+\).*:\1:')
+	PHP_EXTENSION_DIR=$(php -i 2>/dev/null|grep ^extension_dir|sed -e 's:extension_dir => \([/a-z0-9.-]\+\).*:\1:')
 }
 
 src_install() {
