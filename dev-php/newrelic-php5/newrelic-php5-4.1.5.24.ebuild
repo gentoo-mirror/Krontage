@@ -43,6 +43,7 @@ src_install() {
 	mkdir -p ${D}/${PHP_EXTENSION_DIR}
 	dolib "${S}/usr/lib/newrelic-php5/scripts/newrelic-iutil.x64"
 
+	einfo cp -a "${S}/usr/lib/newrelic-php5/agent/x64/${PHP_EXTENSION_SOURCE}" "${D}/${PHP_EXTENSION_DIR}/${PHP_EXT_NAME}.so"
 	cp -a "${S}/usr/lib/newrelic-php5/agent/x64/${PHP_EXTENSION_SOURCE}" "${D}/${PHP_EXTENSION_DIR}/${PHP_EXT_NAME}.so"
 
 	PHPINI=''
