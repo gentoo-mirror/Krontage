@@ -5,7 +5,7 @@
 
 start() {
   einfo "Starting newrelic-daemon"
-  start-stop-daemon --start --exec "newrelic-daemon" --pidfile /run/newrelic-daemon.pid --user newrelic:newrelic --progress --wait 2000
+  start-stop-daemon --start --exec "newrelic-daemon" --pidfile /run/newrelic-daemon.pid --user newrelic:newrelic --progress --wait 2000 -- -p /run/newrelic-daemon.pid
   eend $? "Unable to start daemon"
 }
 
