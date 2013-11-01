@@ -22,15 +22,14 @@ RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/"
 
+PHP_VERSION=$(php -v |grep 'PHP [0-9]'|sed -e 's:PHP \([^-]\+\)-\?.*:\1:')
+PHP_EXTENSION=$(php -i 2>/dev/null|grep 'PHP Extension => '|sed -e 's:PHP Extension => \(.\+\):\1:')
+PHP_ZEND_EXTENSION=$(php -i 2>/dev/null|grep 'Zend Extension => '|sed -e 's:Zend Extension => \(.\+\):\1:')
+PHP_EXTENSION_DIR=$(php -i 2>/dev/null|grep extension_dir|sed -e 's:extension_dir => \([/a-z0-9.-]\+\).*:\1:')
+
 
 src_install() {
-	PHP_VERSION=$(php -v |grep 'PHP [0-9]'|sed -e 's:PHP \([^-]\+\)-\?.*:\1:')
-	PHP_EXTENSION=$(php -i 2>/dev/null|grep 'PHP Extension => '|sed -e 's:PHP Extension => \(.\+\):\1:')
-	PHP_ZEND_EXTENSION=$(php -i 2>/dev/null|grep 'Zend Extension => '|sed -e 's:Zend Extension => \(.\+\):\1:')
-	PHP_EXTENSION_DIR=$(php -i 2>/dev/null|grep extension_dir|sed -e 's:extension_dir => \([/a-z0-9.-]\+\).*:\1:')
-
 	[ -z "${PHP_VERSION}" ] && die "no php found"
-
 	PHP_V=$(echo ${PHP_VERSION}|sed -e 's:\([0-9]\+\.[0-9]\+\).*:\1:')
 
 	if [[ ${PHP_EXTENSION_DIR/no-zts/} == ${PHP_EXTENSTION_DIR} ]];then
