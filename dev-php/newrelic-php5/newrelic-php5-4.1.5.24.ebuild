@@ -39,6 +39,8 @@ src_install() {
 		PHP_EXTENSION_SOURCE="${PHP_EXT_NAME}-${PHP_EXTENSION}.so"
 	fi
 
+	einfo ${PHP_EXTENSION_SOURCE}
+
 	mkdir -p ${D}/${PHP_EXTENSION_DIR} ${T}/${PHP_EXTENSION_DIR}
 	dolib "${S}/usr/lib/newrelic-php5/scripts/newrelic-iutil.x64"
 
