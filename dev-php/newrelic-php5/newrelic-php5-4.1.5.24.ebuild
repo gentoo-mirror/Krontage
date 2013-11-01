@@ -27,6 +27,8 @@ pkg_setup() {
 	PHP_ZEND_EXTENSION=$(php -i 2>/dev/null|grep 'Zend Extension => '|sed -e 's:Zend Extension => \(.\+\):\1:')
 	PHP_EXTENSION_DIR=$(php -i 2>/dev/null|grep ^extension_dir|sed -e 's:extension_dir => \([/a-z0-9.-]\+\).*:\1:')
 	PHP_ZTS=$(php -i 2>/dev/null|grep 'Thread Safety => '|sed -e 's:Thread Safety => \(.\+\):\1:')
+
+	use amd64 && ARCH="x64" || ARCH="x86"
 }
 
 src_install() {
@@ -40,16 +42,16 @@ src_install() {
 	fi
 
 	mkdir -p ${D}/${PHP_EXTENSION_DIR} ${D}/etc/newrelic ${T}/${PHP_EXTENSION_DIR}
-	newbin "${S}/scripts/newrelic-iutil.x64" "newrelic-iutil"
-	newbin "${S}/daemon/newrelic-daemon.x64" "newrelic-daemon"
+	newbin "${S}/scripts/newrelic-iutil.${ARCH}" "newrelic-iutil"
+	newbin "${S}/daemon/newrelic-daemon.${ARCH}" "newrelic-daemon"
 	newinitd "${FILESDIR}/newrelic-daemon.initd" "newrelic-daemon"
 
 	insinto "/etc/newrelic"
 	newins "${S}/scripts/newrelic.cfg.template" "newrelic.cfg"
 	insinto
 
-	chmod 644 "${S}/agent/x64/${PHP_EXTENSION_SOURCE}"
-	cp -a "${S}/agent/x64/${PHP_EXTENSION_SOURCE}" "${D}/${PHP_EXTENSION_DIR}/${PHP_EXT_NAME}.so"
+	chmod 644 "${S}/agent/${ARCH}/${PHP_EXTENSION_SOURCE}"
+	cp -a "${S}/agent/${ARCH}/${PHP_EXTENSION_SOURCE}" "${D}/${PHP_EXTENSION_DIR}/${PHP_EXT_NAME}.so"
 
 	PHPINI=''
 	for a in apache2 cli cgi fpm;do
