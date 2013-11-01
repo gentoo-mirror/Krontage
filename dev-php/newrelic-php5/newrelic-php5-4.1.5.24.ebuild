@@ -68,9 +68,13 @@ src_install() {
 		PHP_EXTENSION_SOURCE="${PHP_EXT_NAME}-${PHP_EXTENSION}.so"
 	fi
 
-	mkdir -p ${D}/${PHP_EXTENSION_DIR} ${T}/${PHP_EXTENSION_DIR}
+	mkdir -p ${D}/${PHP_EXTENSION_DIR} ${D}/etc/newrelic ${T}/${PHP_EXTENSION_DIR}
 	newbin "${S}/scripts/newrelic-iutil.x64" "newrelic-iutil"
 	newbin "${S}/daemon/newrelic-daemon.x64" "newrelic-daemon"
+
+	insinto "/etc/newrelic"
+	newins "${S}/scripts/newrelic.cfg.template" "newrelic.cfg"
+	insinto
 
 	chmod 644 "${S}/agent/x64/${PHP_EXTENSION_SOURCE}"
 	cp -a "${S}/agent/x64/${PHP_EXTENSION_SOURCE}" "${D}/${PHP_EXTENSION_DIR}/${PHP_EXT_NAME}.so"
