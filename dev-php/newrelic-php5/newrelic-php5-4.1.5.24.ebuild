@@ -52,7 +52,6 @@ src_install() {
 			PHPINI="${PHPINI} etc/php/${a}-php${PHP_V}/ext/${PHP_EXT_NAME}.ini"
 			[[ -d "${D}/etc/php/${a}-php${PHP_V}/ext" ]] || mkdir -p "${D}/etc/php/${a}-php${PHP_V}/ext"
 			echo "extension=${PHP_EXT_NAME}.so" > "${D}/etc/php/${a}-php${PHP_V}/ext/${PHP_EXT_NAME}.ini"
-			#echo "newrelic.appname=\"App1\"" >> "${D}/etc/php/${a}-php${PHP_V}/ext/${PHP_EXT_NAME}.ini"
 			echo "newrelic.license=\"\"" >> "${D}/etc/php/${a}-php${PHP_V}/ext/${PHP_EXT_NAME}.ini"
 		fi
 	done 
