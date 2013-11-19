@@ -1,0 +1,17 @@
+#!/sbin/runscript
+# Copyright 1999-2013 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+start() {
+  einfo "Starting newrelic-daemon"
+  checkpath -d /run/newrelic -o newrelic:newrelic
+  start-stop-daemon --start --exec "newrelic-daemon" --pidfile /run/newrelic/newrelic-daemon.pid --user newrelic:newrelic --progress --wait 2000 -- -p /run/newrelic/newrelic-daemon.pid
+  eend $? "Unable to start daemon"
+}
+
+stop() {
+  einfo "Stopping newrelic-daemon"
+  start-stop-daemon --stop --exec "newrelic-daemon" --pidfile /run/newrelic-daemon.pid --user newrelic:newrelic --progress --wait 2000 --retry SIGTERM/5
+  eend $? "Unable to stop daemon"
+}
