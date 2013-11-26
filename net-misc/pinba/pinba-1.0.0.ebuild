@@ -25,11 +25,14 @@ RDEPEND="${DEPEND}"
 
 pkg_setup() {
 	# ugly mysql headers hack
-	einfo "creating symlinks of mysql header files under /usr/include/mysql"
-	for header in my_bitmap.h my_compare.h myisampack.h ft_global.h;do
-	if [[ -f /usr/include/mysql/private/${header} ]] ;then
-		[[ -f /usr/include/mysql/${header} ]] || ln -sv /usr/include/mysql/private/${header} /usr/include/mysql/${header}
-	fi
+	##einfo "creating symlinks of mysql header files under /usr/include/mysql"
+	##for header in my_bitmap.h my_compare.h myisampack.h ft_global.h;do
+	##if [[ -f /usr/include/mysql/private/${header} ]] ;then
+	##	[[ -f /usr/include/mysql/${header} ]] || ln -sv /usr/include/mysql/private/${header} /usr/include/mysql/${header}
+	##fi
+	##done
+	for dir in `find /usr/include/mysql -type d`;do
+		MYSQL_INCLUDE="${MYSQL_INCLUDE} --with-mysql=${dir}"
 	done
 }
 
@@ -43,7 +46,7 @@ src_prepare() {
 
 src_configure() {
 	if [[ -x ${ECONF_SOURCE:-.}/configure ]] ; then
-		econf --with-mysql=/usr/include/mysql --libdir=${D}/usr/lib/mysql/plugin
+		econf ${MYSQL_INCLUDE} --libdir=${D}/usr/lib/mysql/plugin
 	fi
 }
 
