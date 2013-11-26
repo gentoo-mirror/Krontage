@@ -30,6 +30,7 @@ pkg_setup() {
 	for h in my_bitmap.h;do
 		header=`find /usr/include -iname ${h}`
 		header=${header#/usr/include/}
+		einfo "header: ${header}"
 		sed -i "s:mysql/private/${h}:${header}:" ${FILESDIR}/ha_pinba.cc.path
 	done
 }
