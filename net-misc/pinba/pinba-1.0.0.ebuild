@@ -4,7 +4,7 @@
 
 EAPI=4
 
-inherit git-2 eutils
+inherit git-2 eutils flag-o-matic
 
 DESCRIPTION="Pinba (PHP Is Not A Bottleneck Anymore) is a statistics server
 using MySQL as an interface."
@@ -32,7 +32,7 @@ pkg_setup() {
 	##fi
 	##done
 	for dir in `find /usr/include/mysql -type d`;do
-		MYSQL_INCLUDE="${MYSQL_INCLUDE} --with-mysql=${dir}"
+		append-flags "-I${dir}"
 	done
 }
 
@@ -46,7 +46,7 @@ src_prepare() {
 
 src_configure() {
 	if [[ -x ${ECONF_SOURCE:-.}/configure ]] ; then
-		econf ${MYSQL_INCLUDE} --libdir=${D}/usr/lib/mysql/plugin
+		econf --with-mysql=/usr/include/mysql --libdir=${D}/usr/lib/mysql/plugin
 	fi
 }
 
