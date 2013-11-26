@@ -9,7 +9,8 @@ inherit git-2 eutils flag-o-matic
 DESCRIPTION="Pinba (PHP Is Not A Bottleneck Anymore) is a statistics server
 using MySQL as an interface."
 HOMEPAGE="http://pinba.org/"
-EGIT_REPO_URI="https://github.com/tony2001/pinba_engine.git"
+#EGIT_REPO_URI="https://github.com/tony2001/pinba_engine.git"
+SRC_URI="http://pinba.org/files/pinba_engine-1.0.0.tar.gz"
 
 LICENSE="GNU GPL"
 SLOT="0"
@@ -35,13 +36,13 @@ pkg_setup() {
 	##done
 }
 
-src_prepare() {
-	if [[ -x ${EGIT_SOURCEDIR}/buildconf.sh ]] ;then
-		${EGIT_SOURCEDIR}/buildconf.sh
-	fi
-	epatch "${FILESDIR}"/configure.patch
-	epatch "${FILESDIR}"/ha_pinba.cc.patch
-}
+##src_prepare() {
+##	if [[ -x ${EGIT_SOURCEDIR}/buildconf.sh ]] ;then
+##		${EGIT_SOURCEDIR}/buildconf.sh
+##	fi
+##	epatch "${FILESDIR}"/configure.patch
+##	epatch "${FILESDIR}"/ha_pinba.cc.patch
+##}
 
 src_configure() {
 	if [[ -x ${ECONF_SOURCE:-.}/configure ]] ; then
@@ -50,7 +51,7 @@ src_configure() {
 }
 
 src_install() {
-	emake install prefix=${D}
+	emake install
 	for doc in COPYING NEWS README TODO default_tables.sql;do
 		dodoc ${doc}
 	done
