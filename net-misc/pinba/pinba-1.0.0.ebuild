@@ -4,7 +4,7 @@
 
 EAPI=4
 
-inherit git-2 eutils flag-o-matic
+inherit eutils flag-o-matic
 
 DESCRIPTION="Pinba (PHP Is Not A Bottleneck Anymore) is a statistics server
 using MySQL as an interface."
