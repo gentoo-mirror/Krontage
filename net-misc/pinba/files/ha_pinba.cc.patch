@@ -9,10 +9,10 @@
 -# include <sql/structs.h>
 -# include <sql/handler.h>
 +# include <mysql/mysql_version.h>
-+# include <mysql/private/my_bitmap.h>
-+# include <mysql/private/field.h>
-+# include <mysql/private/structs.h>
-+# include <mysql/private/handler.h>
++# include <mysql/my_bitmap.h>
++# include <mysql/field.h>
++# include <mysql/structs.h>
++# include <mysql/handler.h>
  #else
 -# include <mysql_priv.h>
 +# include <mysql/mysql_priv.h>
