@@ -47,6 +47,7 @@ src_prepare() {
 src_configure() {
 	if [[ -x ${ECONF_SOURCE:-.}/configure ]] ; then
 		econf --with-mysql=/usr/include/mysql --libdir=${D}/usr/lib/mysql/plugin
+		--prefix=${D}
 	fi
 }
 
