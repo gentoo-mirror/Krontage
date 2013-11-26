@@ -27,7 +27,7 @@ pkg_setup() {
 	for dir in `find /usr/include/mysql -type d`;do
 		append-flags "-I${dir}"
 	done
-	for h in my_bitmap.h;do
+	for h in my_bitmap.h field.h;do
 		header=`find /usr/include -iname ${h}`
 		header=${header#/usr/include/}
 		einfo "header: ${header}"
