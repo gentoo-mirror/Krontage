@@ -16,7 +16,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND="|| ( >=dev-db/mariadb-5.5 >=dev-db/mysql-5.5 )
+DEPEND="|| ( >=dev-db/mariadb-5.1 >=dev-db/mysql-5.1 )
 <=dev-libs/protobuf-2.4.1
 dev-libs/judy
 >=dev-libs/libevent-1.4.1
