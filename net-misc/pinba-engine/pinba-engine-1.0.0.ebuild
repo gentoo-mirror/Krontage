@@ -4,14 +4,16 @@
 
 EAPI=4
 
-inherit eutils flag-o-matic
+inherit eutils flag-o-matic versionator
+
+MY_PN="pinba_engine"
+MY_PV=${PV}
+MY_P="${MY_PN}-${MY_PV}"
 
 DESCRIPTION="Pinba (PHP Is Not A Bottleneck Anymore) is a statistics server
 using MySQL as an interface."
 HOMEPAGE="http://pinba.org/"
-#EGIT_REPO_URI="https://github.com/tony2001/pinba_engine.git"
-SRC_URI="http://pinba.org/files/pinba_engine-1.0.0.tar.gz ->
-pinba-engine-1.0.0.tar.gz"
+SRC_URI="http://pinba.org/files/pinba_engine-1.0.0.tar.gz"
 
 LICENSE="GNU GPL"
 SLOT="0"
