@@ -10,6 +10,8 @@ MY_PN="pinba_engine"
 MY_PV=${PV}
 MY_P="${MY_PN}-${MY_PV}"
 
+S=${WORKDIR}/${MY_P}
+
 DESCRIPTION="Pinba (PHP Is Not A Bottleneck Anymore) is a statistics server
 using MySQL as an interface."
 HOMEPAGE="http://pinba.org/"
