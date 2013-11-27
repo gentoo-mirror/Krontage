@@ -33,18 +33,9 @@ pkg_setup() {
 	for dir in `find /usr/include/mysql -type d`;do
 		append-flags "-I${dir}"
 	done
-	##for h in my_bitmap.h field.h;do
-	##	header=`find /usr/include -iname ${h}`
-	##	header=${header#/usr/include/}
-	##	einfo "header: ${header}"
-	##	sed -i "s:mysql/private/${h}:${header}:" ${FILESDIR}/ha_pinba.cc.patch
-	##done
 }
 
 src_prepare() {
-	##if [[ -x ${EGIT_SOURCEDIR}/buildconf.sh ]] ;then
-	##	${EGIT_SOURCEDIR}/buildconf.sh
-	##fi
 	epatch "${FILESDIR}"/configure.patch
 	epatch "${FILESDIR}"/ha_pinba.cc.patch
 }
