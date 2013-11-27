@@ -41,13 +41,13 @@ pkg_setup() {
 	##done
 }
 
-##src_prepare() {
-##	if [[ -x ${EGIT_SOURCEDIR}/buildconf.sh ]] ;then
-##		${EGIT_SOURCEDIR}/buildconf.sh
-##	fi
-##	epatch "${FILESDIR}"/configure.patch
-##	epatch "${FILESDIR}"/ha_pinba.cc.patch
-##}
+src_prepare() {
+	##if [[ -x ${EGIT_SOURCEDIR}/buildconf.sh ]] ;then
+	##	${EGIT_SOURCEDIR}/buildconf.sh
+	##fi
+	epatch "${FILESDIR}"/configure.patch
+	##epatch "${FILESDIR}"/ha_pinba.cc.patch
+}
 
 src_configure() {
 	if [[ -x ${ECONF_SOURCE:-.}/configure ]] ; then

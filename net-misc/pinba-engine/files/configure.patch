@@ -1,6 +1,6 @@
---- configure	2013-09-02 14:31:44.000000000 +0400
-+++ configure	2013-09-02 17:45:57.000000000 +0400
-@@ -15633,7 +15633,7 @@
+--- configure	2012-08-17 11:16:23.000000000 +0400
++++ configure	2013-11-27 10:01:12.765312182 +0400
+@@ -15571,7 +15571,7 @@
  
    with_mysql=`dir_resolve "$with_mysql"`
  
@@ -9,29 +9,3 @@
    for file in $HEADERS; do
      if ! test -r "$with_mysql/$file"; then
        as_fn_error $? "Failed to find required header file $file in $with_mysql, check the path and make sure you've run './configure ..<options>.. && cd include && make' in MySQL sources dir" "$LINENO" 5
-@@ -15644,7 +15644,7 @@
- $as_echo "$with_mysql" >&6; }
- 
-   CFLAGS_old="$CFLAGS"
--  CFLAGS="-I$with_mysql/include $CFLAGS"
-+  CFLAGS="-I$with_mysql $CFLAGS"
- 
-   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for MySQL version >= 5.1" >&5
- $as_echo_n "checking for MySQL version >= 5.1... " >&6; }
-@@ -15658,13 +15658,12 @@
- /* end confdefs.h.  */
- 
- #include <stdlib.h>
--#include <mysql_version.h>
-+#include <mysql/mysql_version.h>
- main() {
--#if MYSQL_VERSION_ID >= 50100
-+if (MYSQL_VERSION_ID >= 50100)
-   exit(0);
--#else
-+else
-   exit(1);
--#endif
- }
- 
- _ACEOF
