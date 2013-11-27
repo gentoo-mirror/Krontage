@@ -46,7 +46,7 @@ src_prepare() {
 	##	${EGIT_SOURCEDIR}/buildconf.sh
 	##fi
 	epatch "${FILESDIR}"/configure.patch
-	##epatch "${FILESDIR}"/ha_pinba.cc.patch
+	epatch "${FILESDIR}"/ha_pinba.cc.patch
 }
 
 src_configure() {
