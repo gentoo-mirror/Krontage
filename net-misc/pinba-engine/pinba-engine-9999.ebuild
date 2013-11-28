@@ -53,11 +53,15 @@ src_configure() {
 }
 
 src_install() {
-	##emake install
-	[ -d ${T}${MY_PLUG_DIR} ] || mkdir -p ${T}${MY_PLUG_DIR}
-	newlib.a ${S}/src/.libs/libpinba_engine.a ${MY_PLUG_DIR}/libpinba_engine.a
-	newins ${S}/src/.libs/libpinba_engine.la ${MY_PLUG_DIR}/libpinba_engine.la
-	newlib.so ${S}/src/.libs/libpinba_engine.so.0.0.0 ${MY_PLUG_DIR}/libpinba_engine.so.0.0.0
+	for doc in COPYING NEWS README TODO default_tables.sql;do
+		dodoc ${doc}
+	done
+
+	into ${MY_PLUG_DIR}
+	##[ -d ${T}${MY_PLUG_DIR} ] || mkdir -p ${T}${MY_PLUG_DIR}
+	newins ${S}/src/.libs/libpinba_engine.la
+	newlib.a ${S}/src/.libs/libpinba_engine.a
+	newlib.so ${S}/src/.libs/libpinba_engine.so.0.0.0
 
 	cd ${D}${MY_PLUG_DIR}
 	for sym in libpinba_engine.so libpinba_engine.so.0;do
@@ -65,8 +69,5 @@ src_install() {
 	done
 	cd -
 
-	for doc in COPYING NEWS README TODO default_tables.sql;do
-		dodoc ${doc}
-	done
 }
 
