@@ -30,6 +30,8 @@ dev-libs/judy
 "
 RDEPEND="${DEPEND}"
 
+MY_PLUG_DIR='/usr/lib/mysql/plugin'
+
 pkg_setup() {
 	for dir in `find /usr/include/mysql -type d`;do
 		append-flags "-I${dir}"
@@ -46,12 +48,22 @@ src_prepare() {
 
 src_configure() {
 	if [[ -x ${ECONF_SOURCE:-.}/configure ]] ; then
-		econf --with-mysql=/usr/include/mysql --libdir=${D}/usr/lib/mysql/plugin
+		econf --with-mysql=/usr/include/mysql --libdir=${D}${MY_PLUG_DIR}
 	fi
 }
 
 src_install() {
-	emake install
+	##emake install
+	newlib.a ${S}/src/.libs/libpinba_engine.a ${MY_PLUG_DIR}/libpinba_engine.a
+	newins ${S}/src/.libs/libpinba_engine.la ${MY_PLUG_DIR}/libpinba_engine.la
+	newlib.so ${S}/src/.libs/libpinba_engine.so.0.0.0 ${MY_PLUG_DIR}/libpinba_engine.so.0.0.0
+
+	cd ${D}${MY_PLUG_DIR}
+	for sym in libpinba_engine.so libpinba_engine.so.0;do
+		dosym libpinba_engine.so.0.0.0 ${sym}
+	done
+	cd -
+
 	for doc in COPYING NEWS README TODO default_tables.sql;do
 		dodoc ${doc}
 	done
