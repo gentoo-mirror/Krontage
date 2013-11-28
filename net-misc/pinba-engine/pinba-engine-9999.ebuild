@@ -4,18 +4,19 @@
 
 EAPI=4
 
-inherit eutils flag-o-matic versionator
+inherit git-2 eutils flag-o-matic versionator
 
-MY_PN="pinba_engine"
-MY_PV=${PV}
-MY_P="${MY_PN}-${MY_PV}"
-
-S=${WORKDIR}/${MY_P}
+##MY_PN="pinba_engine"
+##MY_PV=${PV}
+##MY_P="${MY_PN}-${MY_PV}"
+##
+##S=${WORKDIR}/${MY_P}
 
 DESCRIPTION="Pinba (PHP Is Not A Bottleneck Anymore) is a statistics server
 using MySQL as an interface."
 HOMEPAGE="http://pinba.org/"
-SRC_URI="http://pinba.org/files/${MY_P}.tar.gz"
+##SRC_URI="http://pinba.org/files/pinba_engine-1.0.0.tar.gz"
+EGIT_REPO_URI="https://github.com/tony2001/pinba_engine.git"
 
 LICENSE="GNU GPL"
 SLOT="0"
@@ -36,6 +37,9 @@ pkg_setup() {
 }
 
 src_prepare() {
+	if [[ -f ./build.mk ]];then
+		emake -f build.mk
+	fi
 	epatch "${FILESDIR}"/configure.patch
 	epatch "${FILESDIR}"/ha_pinba.cc.patch
 }
