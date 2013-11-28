@@ -50,8 +50,8 @@ src_install() {
 		dodoc ${doc}
 	done
 
+	insinto ${MY_PLUG_DIR};	doins ${S}/src/libpinba_engine.la
 	insinto ${MY_PLUG_DIR};	doins ${S}/src/.libs/libpinba_engine.a
-	insinto ${MY_PLUG_DIR};	doins ${S}/src/.libs/libpinba_engine.la
 	insinto ${MY_PLUG_DIR};	doins ${S}/src/.libs/libpinba_engine.so.0.0.0
 
 	for sym in libpinba_engine.so libpinba_engine.so.0;do
