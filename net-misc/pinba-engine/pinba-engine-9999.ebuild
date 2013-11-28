@@ -52,7 +52,9 @@ src_install() {
 
 	into ${MY_PLUG_DIR}
 	doins ${S}/src/.libs/libpinba_engine.a
+	into ${MY_PLUG_DIR}
 	doins ${S}/src/.libs/libpinba_engine.la
+	into ${MY_PLUG_DIR}
 	doins ${S}/src/.libs/libpinba_engine.so.0.0.0
 
 	for sym in libpinba_engine.so libpinba_engine.so.0;do
