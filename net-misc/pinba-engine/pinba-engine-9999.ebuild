@@ -6,16 +6,9 @@ EAPI=4
 
 inherit git-2 eutils flag-o-matic versionator
 
-##MY_PN="pinba_engine"
-##MY_PV=${PV}
-##MY_P="${MY_PN}-${MY_PV}"
-##
-##S=${WORKDIR}/${MY_P}
-
 DESCRIPTION="Pinba (PHP Is Not A Bottleneck Anymore) is a statistics server
 using MySQL as an interface."
 HOMEPAGE="http://pinba.org/"
-##SRC_URI="http://pinba.org/files/pinba_engine-1.0.0.tar.gz"
 EGIT_REPO_URI="https://github.com/tony2001/pinba_engine.git"
 
 LICENSE="GNU GPL"
@@ -57,17 +50,13 @@ src_install() {
 		dodoc ${doc}
 	done
 
+	for sym in libpinba_engine.so libpinba_engine.so.0;do
+		dosym ${MY_PLUG_DIR}/libpinba_engine.so.0.0.0 ${MY_PLUG_DIR}${sym}
+	done
+
 	into ${MY_PLUG_DIR}
-	##[ -d ${T}${MY_PLUG_DIR} ] || mkdir -p ${T}${MY_PLUG_DIR}
 	doins ${S}/src/.libs/libpinba_engine.la
 	doins ${S}/src/.libs/libpinba_engine.a
 	doins ${S}/src/.libs/libpinba_engine.so.0.0.0
-
-	cd ${D}${MY_PLUG_DIR}
-	for sym in libpinba_engine.so libpinba_engine.so.0;do
-		ln -s libpinba_engine.so.0.0.0 ${sym}
-	done
-	cd -
-
 }
 
