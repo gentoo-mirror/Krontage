@@ -59,9 +59,9 @@ src_install() {
 
 	into ${MY_PLUG_DIR}
 	##[ -d ${T}${MY_PLUG_DIR} ] || mkdir -p ${T}${MY_PLUG_DIR}
-	newins ${S}/src/.libs/libpinba_engine.la
-	newlib.a ${S}/src/.libs/libpinba_engine.a
-	newlib.so ${S}/src/.libs/libpinba_engine.so.0.0.0
+	doins ${S}/src/.libs/libpinba_engine.la
+	dolib.a ${S}/src/.libs/libpinba_engine.a
+	dolib.so ${S}/src/.libs/libpinba_engine.so.0.0.0
 
 	cd ${D}${MY_PLUG_DIR}
 	for sym in libpinba_engine.so libpinba_engine.so.0;do
