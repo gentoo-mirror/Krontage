@@ -65,7 +65,7 @@ src_install() {
 
 	cd ${D}${MY_PLUG_DIR}
 	for sym in libpinba_engine.so libpinba_engine.so.0;do
-		dosym libpinba_engine.so.0.0.0 ${sym}
+		ln -s libpinba_engine.so.0.0.0 ${sym}
 	done
 	cd -
 
