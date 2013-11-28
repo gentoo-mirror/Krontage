@@ -54,7 +54,7 @@ src_configure() {
 
 src_install() {
 	##emake install
-	[ -d ${T}${MY_PLUG_DIR} ] || dodir ${T}${MY_PLUG_DIR}
+	[ -d ${T}${MY_PLUG_DIR} ] || mkdir -p ${T}${MY_PLUG_DIR}
 	newlib.a ${S}/src/.libs/libpinba_engine.a ${MY_PLUG_DIR}/libpinba_engine.a
 	newins ${S}/src/.libs/libpinba_engine.la ${MY_PLUG_DIR}/libpinba_engine.la
 	newlib.so ${S}/src/.libs/libpinba_engine.so.0.0.0 ${MY_PLUG_DIR}/libpinba_engine.so.0.0.0
