@@ -25,5 +25,6 @@ pkg_setup() {
 		die "There have been reports of build failues with non UTF-8 locales. Please set a UTF-8 locale and try again"
 	fi
 	return
+	python_pkg_setup
 }
 
