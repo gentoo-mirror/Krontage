@@ -21,7 +21,7 @@ DEPEND=""
 RDEPEND="${DEPEND}
 dev-python/pycairo[${PYTHON_USEDEP}]
 dev-python/django[${PYTHON_USEDEP}]
-dev-python/django-tagging[${PYTHON_USEDEP}]
+dev-python/django-tagging
 dev-python/twisted-core[${PYTHON_USEDEP}]
 net-zope/zope-interface[${PYTHON_USEDEP}]
 media-libs/fontconfig
