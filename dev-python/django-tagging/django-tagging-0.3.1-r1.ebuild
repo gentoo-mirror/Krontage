@@ -3,9 +3,7 @@
 # $Header: $
 EAPI=5
 
-PYTHON_DEPEND="2"
-SUPPORT_PYTHON_ABIS="2.7 3.2"
-#RESTRICT_PYTHON_ABIS="3.*"
+PYTHON_COMPAT=( python2_{5,6,7} pypy{1_9,2_0} )
 
 inherit distutils
 
