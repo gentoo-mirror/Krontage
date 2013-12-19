@@ -20,10 +20,10 @@ DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_install() {
+	dodir /etc/harb
+
 	newbin ${S}/harb.rb harb
 	newbin ${S}/harbd.rb harbd
-
-	dodir /etc/harb
 
 	newins ${S}/harb.conf.sample /etc/harb/harb.conf
 	newins ${S}/harbd.conf.sample /etc/harb/harbd.conf
