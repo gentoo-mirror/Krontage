@@ -1,0 +1,6 @@
+
+PIDFILE=/run/harbd.pid
+LOGFILE=/var/log/harbd.log
+USER=haproxy
+GROUP=haproxy
+
