@@ -23,9 +23,9 @@ src_install() {
 	newbin ${S}/harb.rb harb
 	newbin ${S}/harbd.rb harbd
 
-	dodir ${D}/etc/harb
+	dodir /etc/harb
 
-	newins ${S}/harb.conf.sample ${D}/etc/harb/harb.conf
-	newins ${S}/harbd.conf.sample ${D}/etc/harb/harbd.conf
+	newins ${S}/harb.conf.sample /etc/harb/harb.conf
+	newins ${S}/harbd.conf.sample /etc/harb/harbd.conf
 }
 
