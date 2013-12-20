@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 
 USE_RUBY="ruby19 ruby20"
 
-inherit ruby-fakegem
+inherit multilib ruby-fakegem
 
 DESCRIPTION="A fast JSON parser and Object marshaller as a Ruby gem."
 HOMEPAGE="https://github.com/ohler55/oj"
