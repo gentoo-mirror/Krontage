@@ -4,6 +4,7 @@
 # $Header: $
 
 start() {
+  checkpath -f ${LOGFILE} -o ${USER}
   start-stop-daemon --start --exec harb --pidfile ${PIDFILE} --user haproxy:haproxy --progress --background --make-pidfile -1 ${LOGFILE} -2 ${LOGFILE} --wait 2000 -- ${ARGS}
 }
 
