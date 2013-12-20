@@ -29,11 +29,11 @@ src_install() {
 	newbin ${S}/harb.rb harb
 	newbin ${S}/harbd.rb harbd
 
-	newconfd ${S}/harb.confd harb
-	newconfd ${S}/harbd.confd harbd
+	newconfd ${FILESDIR}/harb.confd harb
+	newconfd ${FILESDIR}/harbd.confd harbd
 
-	newinitd ${S}/harb.initd harb
-	newinitd ${S}/harbd.initd harbd
+	newinitd ${FILESDIR}/harb.initd harb
+	newinitd ${FILESDIR}/harbd.initd harbd
 
 	cp ${S}/harb.conf.sample ${D}/etc/harb/harb.conf
 	cp ${S}/harbd.conf.sample ${D}/etc/harb/harbd.conf
