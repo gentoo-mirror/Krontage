@@ -9,6 +9,6 @@ start() {
 }
 
 stop() {
-  start-stop-daemon --stop --exec harbd --pidfile ${PIDFILE} --user ${USER}:${GROUP} --progress -1 ${LOGFILE} -2 ${LOGFILE} --retry SIGTERM/5 -- ${ARGS}
+  start-stop-daemon --stop --exec harbd --pidfile ${PIDFILE} --user ${USER}:${GROUP} --progress --retry SIGTERM/5 -- ${ARGS}
 }
 
