@@ -17,13 +17,23 @@ KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND=""
-RDEPEND="${DEPEND}"
+RDEPEND="
+${DEPEND}
+dev-ruby/eventmachine
+dev-ruby/oj
+"
 
 src_install() {
 	mkdir -p ${D}/etc/harb
 
 	newbin ${S}/harb.rb harb
 	newbin ${S}/harbd.rb harbd
+
+	newconfd ${S}/harb.confd harb
+	newconfd ${S}/harbd.confd harbd
+
+	newinitd ${S}/harb.initd harb
+	newinitd ${S}/harbd.initd harbd
 
 	cp ${S}/harb.conf.sample ${D}/etc/harb/harb.conf
 	cp ${S}/harbd.conf.sample ${D}/etc/harb/harbd.conf
