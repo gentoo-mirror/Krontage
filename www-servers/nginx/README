@@ -1,0 +1,4 @@
+Nginx ebuild with additional modules:
+	http_echo	http://wiki.nginx.org/HttpEchoModule
+	http_memc	http://wiki.nginx.org/HttpMemcachedModule
+

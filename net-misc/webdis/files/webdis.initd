@@ -1,0 +1,24 @@
+#!/sbin/runscript
+# Copyright 1999-2013 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+start() {
+
+    einfo   "starting webdis service"
+    checkpath   -f /var/log/webdis.log -o webdis
+    if pidof webdis;then
+        ewarn "webdis already running, trying to restart it"
+        start-stop-daemon   --stop --exec webdis --name webdis --progress --retry SIGTERM/5
+    fi
+    start-stop-daemon   --start --exec webdis --name webdis --user webdis --progress -- /etc/webdis.json
+    eend $? "failed to start service"
+
+}
+
+stop() {
+    einfo   "stoping webids service"
+    start-stop-daemon   --stop --exec webdis --name webdis --progress --retry SIGTERM/5
+    eend $? "failed to stop service"
+}
+
