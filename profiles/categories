@@ -3,6 +3,6 @@ dev-db
 dev-libs
 dev-php
 dev-util
-net-misc
+net-dns
 sys-cluster
-www-servers
+x11-apps
