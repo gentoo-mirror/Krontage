@@ -12,3 +12,4 @@ net-misc/webdis 9999: A fast HTTP interface for Redis
 sys-cluster/apache-activemq 5.7.0 5.8.0: Apache ActiveMQ is the most popular and powerful open source messaging and Integration Patterns server
 sys-cluster/hypertable 0.9.5.5 0.9.6.3 0.9.6.4 0.9.6.5: Hypertable is a high performance, open source, massively scalable database modeled after Bigtable, Google's proprietary, massively scalable database.
 sys-cluster/zookeeper 3.3.6 3.4.5: ZooKeeper is a distributed, open-source coordination service for distributed applications.
+x11-apps/florence 0.6.3: Extensible scalable virtual keyboard for GNOME
