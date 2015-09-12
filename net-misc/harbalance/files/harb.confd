@@ -1,7 +1,0 @@
-
-PIDFILE=/run/harb.pid
-LOGFILE=/var/log/harb.log
-USER=haproxy
-GROUP=haproxy
-ARGS=""
-
