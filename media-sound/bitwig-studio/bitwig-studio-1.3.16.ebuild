@@ -9,12 +9,15 @@ DESCRIPTION=""
 HOMEPAGE="https://www.bitwig.com/en/download.html"
 SRC_URI="https://downloads-eu.bitwig.com/stable/${PV}/${P}.deb"
 
+IUSE="alsa jack"
+
 LICENSE=""
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND=""
+DEPEND="alsa? ( media-libs/alsa-lib )
+  jack? ( virtual/jack )"
 RDEPEND="${DEPEND}"
 
 src_unpack(){
