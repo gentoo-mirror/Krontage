@@ -14,9 +14,9 @@ IUSE="alsa jack"
 LICENSE=""
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
 
-DEPEND="alsa? ( media-libs/alsa-lib )
+DEPEND="
+  alsa? ( media-libs/alsa-lib )
   jack? ( virtual/jack )"
 RDEPEND="
   gnome-extra/zenity
