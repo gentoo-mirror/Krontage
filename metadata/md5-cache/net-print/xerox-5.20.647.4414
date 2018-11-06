@@ -1,0 +1,8 @@
+DEFINED_PHASES=install unpack
+DESCRIPTION=https://www.support.xerox.com
+EAPI=7
+KEYWORDS=~amd64 ~x86
+SLOT=0
+SRC_URI=http://download.support.xerox.com/pub/drivers/CQ8580/drivers/linux/pt_BR/Xeroxv5Pkg-Linuxx86_64-5.20.647.4414.deb -> xerox-5.20.647.4414.deb x86? ( http://download.support.xerox.com/pub/drivers/CQ8580/drivers/linux/pt_BR/Xeroxv5Pkg-Linuxi686-5.20.647.4414.deb )
+_eclasses_=eutils	6e6c2737b59a4b982de6fb3ecefd87f8	unpacker	ee2f5086cd7e7b747b061f58db14d89e
+_md5_=ae532a20ec5b3d52bcc22521532fa62e
