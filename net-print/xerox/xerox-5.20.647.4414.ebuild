@@ -15,23 +15,28 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND=""
+DEPEND="net-print/cups"
 RDEPEND="${DEPEND}"
 BDEPEND=""
 
 src_unpack(){
-  unpack_deb ${A}
-  mkdir -p ${S}
+	unpack_deb ${A}
+	mkdir -p ${S}
 
-  for f in ${WORKDIR}/usr/share/man/man1/*.gz;do
-         gunzip ${f}
-  done
+	for f in ${WORKDIR}/usr/share/man/man1/*.gz;do
+		gunzip ${f}
+	done
 
-  mv ${WORKDIR}/opt ${WORKDIR}/usr ${S}/
+	mv ${WORKDIR}/opt ${WORKDIR}/usr ${S}/
 }
 
 src_install(){
-  default
-  cp -R ${S}/opt ${S}/usr ${D} || die "Source Install Failed"
+	default
+
+	cp -R ${S}/opt ${S}/usr ${D} || die "Source Install Failed"
+
+	insinto /usr/libexec/cups/filter
+	doins ${S}/opt/Xerox/prtsys/XeroxQScript
+	doins ${S}/opt/Xerox/prtsys/XeroxXSF
 }
 
