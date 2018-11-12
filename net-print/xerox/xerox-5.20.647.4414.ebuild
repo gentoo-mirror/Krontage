@@ -28,15 +28,16 @@ src_unpack(){
 	done
 
 	mv ${WORKDIR}/opt ${WORKDIR}/usr ${S}/
+	mkdir -p ${S}/usr/libexec/cups/filter
+
+	for f in XeroxQScript XeroxXSF;do
+		cp ${S}/usr/lib/cups/filter/${f} ${S}/usr/libexec/cups/filter/
+		chmod +x ${S}/usr/libexec/cups/filter/${f}
+	done
 }
 
 src_install(){
 	default
-
 	cp -R ${S}/opt ${S}/usr ${D} || die "Source Install Failed"
-
-	insinto /usr/libexec/cups/filter
-	doins ${S}/opt/Xerox/prtsys/XeroxQScript
-	doins ${S}/opt/Xerox/prtsys/XeroxXSF
 }
 
