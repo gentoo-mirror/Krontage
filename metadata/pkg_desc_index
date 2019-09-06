@@ -2,7 +2,7 @@ app-editors/visual-studio-code 1.32.1: Multiplatform Visual Studio Code from Mic
 media-sound/bitwig-studio 1.3.16 2.2.2 2.3.5: 
 media-sound/tuxguitar 1.5.1: TuxGuitar is a multitrack guitar tablature editor and player written in Java-SWT
 media-sound/vmpk 0.7.0: Virtual MIDI Piano Keyboard
-net-im/telegram-desktop-bin 1.7.14 1.8.0 1.8.1 1.8.2: Official desktop client for Telegram (binary package)
+net-im/telegram-desktop-bin 1.7.14 1.8.0 1.8.1 1.8.2 1.8.3: Official desktop client for Telegram (binary package)
 net-im/zoom-bin 2.8.183302.0415 2.9.265650.0716: Video conferencing and web conferencing service
 net-print/xerox 5.20.647.4414: https://www.support.xerox.com
 x11-apps/florence 0.6.3: Extensible scalable virtual keyboard for GNOME
