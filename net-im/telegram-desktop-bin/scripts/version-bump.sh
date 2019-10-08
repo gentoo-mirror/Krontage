@@ -32,6 +32,9 @@ sudo \
   ebuild ${ebuild_new} digest || exit
 
 git add ${ebuild_new}
-git commit -am "updates ${EBUILD_NAME} to ${version_last}"
+git commit \
+  -m "updates ${EBUILD_NAME} to ${version_last}" \
+  ${ebuild_new}
+
 git push
 
