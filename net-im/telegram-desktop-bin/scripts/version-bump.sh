@@ -34,7 +34,8 @@ sudo \
 git add ${ebuild_new}
 git commit \
   -m "updates ${EBUILD_NAME} to ${version_last}" \
-  ${ebuild_new}
+  ${ebuild_new} \
+  ${EBUILD_PATH}/Manifest
 
 git push
 
