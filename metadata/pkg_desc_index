@@ -6,4 +6,5 @@ net-im/telegram-desktop-bin 1.9.9 1.9.13 1.9.14: Official desktop client for Tel
 net-im/zoom-bin 2.8.183302.0415 2.9.265650.0716 3.5.330166.1202: Video conferencing and web conferencing service
 net-print/xerox 5.20.647.4414: https://www.support.xerox.com
 x11-apps/florence 0.6.3: Extensible scalable virtual keyboard for GNOME
+x11-drivers/nvidia-drivers 396.18: NVIDIA Accelerated Graphics Driver
 x11-misc/nvidia-xrun 9999: Script to run dedicated X server with discrete nvidia graphics
