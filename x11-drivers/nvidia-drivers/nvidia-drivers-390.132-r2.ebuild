@@ -170,6 +170,9 @@ src_prepare() {
 	cp "${FILESDIR}"/kernel-5.6.patch "${WORKDIR}" || die
 	eapply "${WORKDIR}"/kernel-5.6.patch
 
+	cp "${FILESDIR}"/5.6-legacy-includes.diff "${WORKDIR}" || die
+	eapply "${WORKDIR}"/5.6-legacy-includes.diff
+
 	default
 
 	if ! [ -f nvidia_icd.json ]; then

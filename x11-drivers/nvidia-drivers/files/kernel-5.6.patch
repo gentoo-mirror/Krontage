@@ -1,26 +1,23 @@
-diff --git a/kernel/common/inc/nv-linux.h b/kernel/common/inc/nv-linux.h
-index 85041c2..ac5bb95 100644
---- a/kernel/common/inc/nv-linux.h
-+++ b/kernel/common/inc/nv-linux.h
-@@ -553,7 +553,11 @@ static inline void *nv_ioremap(NvU64 phys, NvU64 size)
+diff --git a/kernel-dkms/nvidia/nvidia.Kbuild b/kernel-dkms/nvidia/nvidia.Kbuild
+index 5ec3e65..2897e31 100644
+--- a/kernel-dkms/nvidia/nvidia.Kbuild
++++ b/kernel-dkms/nvidia/nvidia.Kbuild
+@@ -150,6 +151,7 @@ NV_CONFTEST_SYMBOL_COMPILE_TESTS += is_export_symbol_present_swiotlb_dma_ops
+ NV_CONFTEST_TYPE_COMPILE_TESTS += acpi_op_remove
+ NV_CONFTEST_TYPE_COMPILE_TESTS += outer_flush_all
+ NV_CONFTEST_TYPE_COMPILE_TESTS += file_operations
++NV_CONFTEST_TYPE_COMPILE_TESTS += proc_ops
+ NV_CONFTEST_TYPE_COMPILE_TESTS += file_inode
+ NV_CONFTEST_TYPE_COMPILE_TESTS += kuid_t
+ NV_CONFTEST_TYPE_COMPILE_TESTS += dma_ops
+
+diff --git a/kernel-dkms/common/inc/nv-procfs.h b/kernel-dkms/common/inc/nv-procfs.h
+index 8b53f86..4c5aceb 100644
+--- a/kernel-dkms/common/inc/nv-procfs.h
++++ b/kernel-dkms/common/inc/nv-procfs.h
+@@ -28,6 +28,18 @@
  
- static inline void *nv_ioremap_nocache(NvU64 phys, NvU64 size)
- {
-+#if defined(NV_IOREMAP_NOCACHE_PRESENT)
-     void *ptr = ioremap_nocache(phys, size);
-+#else
-+    void *ptr = ioremap(phys, size);
-+#endif
-     if (ptr)
-         NV_MEMDBG_ADD(ptr, size);
-     return ptr;
-diff --git a/kernel/common/inc/nv-procfs.h b/kernel/common/inc/nv-procfs.h
-index 3c812ea..e57c4f9 100644
---- a/kernel/common/inc/nv-procfs.h
-+++ b/kernel/common/inc/nv-procfs.h
-@@ -52,6 +52,19 @@
-     })
- #endif
+ #define IS_EXERCISE_ERROR_FORWARDING_ENABLED() (EXERCISE_ERROR_FORWARDING)
  
 +#if defined(NV_HAVE_PROC_OPS)
 +#define NV_CREATE_PROC_FILE(filename,parent,__name,__data)               \
@@ -30,111 +27,80 @@ index 3c812ea..e57c4f9 100644
 +        const struct proc_ops *fops = &nv_procfs_##__name##_fops;        \
 +        if (fops->proc_write != 0)                                       \
 +            mode |= S_IWUSR;                                             \
-+        __entry = NV_CREATE_PROC_ENTRY(filename, mode, parent, fops,     \
-+            __data);                                                     \
++        __entry = proc_create_data(filename, mode, parent, fops, __data);\
 +        __entry;                                                         \
 +    })
 +#else
  #define NV_CREATE_PROC_FILE(filename,parent,__name,__data)               \
     ({                                                                    \
          struct proc_dir_entry *__entry;                                  \
-@@ -63,6 +76,7 @@
-             __data);                                                     \
+@@ -38,6 +50,7 @@
+         __entry = proc_create_data(filename, mode, parent, fops, __data);\
          __entry;                                                         \
      })
 +#endif
  
  /*
   * proc_mkdir_mode exists in Linux 2.6.9, but isn't exported until Linux 3.0.
-@@ -104,6 +118,24 @@
+@@ -77,6 +90,44 @@
      remove_proc_entry(entry->name, entry->parent);
  #endif
  
 +#if defined(NV_HAVE_PROC_OPS)
-+#define NV_DEFINE_PROCFS_SINGLE_FILE(__name)                                  \
-+    static int nv_procfs_open_##__name(                                       \
++#define NV_DEFINE_SINGLE_PROCFS_FILE(name, open_callback, close_callback)     \
++    static int nv_procfs_open_##name(                                         \
 +        struct inode *inode,                                                  \
 +        struct file *filep                                                    \
 +    )                                                                         \
 +    {                                                                         \
-+        return single_open(filep, nv_procfs_read_##__name,                    \
-+            NV_PDE_DATA(inode));                                              \
++        int ret;                                                              \
++        ret = single_open(filep, nv_procfs_read_##name,                       \
++                          NV_PDE_DATA(inode));                                \
++        if (ret < 0)                                                          \
++        {                                                                     \
++            return ret;                                                       \
++        }                                                                     \
++        ret = open_callback();                                                \
++        if (ret < 0)                                                          \
++        {                                                                     \
++            single_release(inode, filep);                                     \
++        }                                                                     \
++        return ret;                                                           \
 +    }                                                                         \
 +                                                                              \
-+    static const struct proc_ops nv_procfs_##__name##_fops = {                \
-+        .proc_open       = nv_procfs_open_##__name,                           \
++    static int nv_procfs_release_##name(                                      \
++        struct inode *inode,                                                  \
++        struct file *filep                                                    \
++    )                                                                         \
++    {                                                                         \
++        close_callback();                                                     \
++        return single_release(inode, filep);                                  \
++    }                                                                         \
++                                                                              \
++    static const struct proc_ops nv_procfs_##name##_fops = {                  \
++        .proc_open       = nv_procfs_open_##name,                             \
 +        .proc_read       = seq_read,                                          \
 +        .proc_lseek      = seq_lseek,                                         \
-+        .proc_release    = single_release,                                    \
++        .proc_release    = nv_procfs_release_##name,                          \
 +    };
 +#else
- #define NV_DEFINE_PROCFS_SINGLE_FILE(__name)                                  \
-     static int nv_procfs_open_##__name(                                       \
+ #define NV_DEFINE_SINGLE_PROCFS_FILE(name, open_callback, close_callback)     \
+     static int nv_procfs_open_##name(                                         \
          struct inode *inode,                                                  \
-@@ -121,6 +153,7 @@
+@@ -114,6 +165,7 @@
          .llseek     = seq_lseek,                                              \
-         .release    = single_release,                                         \
+         .release    = nv_procfs_release_##name,                               \
      };
 +#endif
  
  #endif  /* CONFIG_PROC_FS */
  
-diff --git a/kernel/common/inc/nv-time.h b/kernel/common/inc/nv-time.h
-index 2c799c9..0206062 100644
---- a/kernel/common/inc/nv-time.h
-+++ b/kernel/common/inc/nv-time.h
-@@ -30,7 +30,12 @@
- #include <linux/ktime.h>
- #endif
- 
--static inline void nv_gettimeofday(struct timeval *tv)
-+struct nv_timeval {
-+    __kernel_long_t      tv_sec;
-+    __kernel_suseconds_t tv_usec;
-+};
-+
-+static inline void nv_gettimeofday(struct nv_timeval *tv)
- {
- #ifdef NV_DO_GETTIMEOFDAY_PRESENT
-     do_gettimeofday(tv);
-@@ -39,7 +44,7 @@ static inline void nv_gettimeofday(struct timeval *tv)
- 
-     ktime_get_real_ts64(&now);
- 
--    *tv = (struct timeval) {
-+    *tv = (struct nv_timeval) {
-         .tv_sec = now.tv_sec,
-         .tv_usec = now.tv_nsec/1000,
-     };
-diff --git a/kernel/conftest.sh b/kernel/conftest.sh
-index ec9e093..463a464 100755
---- a/kernel/conftest.sh
-+++ b/kernel/conftest.sh
-@@ -1197,6 +1197,22 @@ compile_test() {
-             compile_check_conftest "$CODE" "NV_IOREMAP_CACHE_PRESENT" "" "functions"
-         ;;
- 
-+        ioremap_nocache)
-+            #
-+            # Determine if the ioremap_nocache() function is present.
-+            #
-+            # Removed by commit 4bdc0d676a64 ("remove ioremap_nocache and
-+            # devm_ioremap_nocache") in v5.6 (2020-01-06)
-+            #
-+            CODE="
-+            #include <asm/io.h>
-+            void conftest_ioremap_nocache(void) {
-+                ioremap_nocache();
-+            }"
-+
-+            compile_check_conftest "$CODE" "NV_IOREMAP_NOCACHE_PRESENT" "" "functions"
-+        ;;
-+
-         ioremap_wc)
-             #
-             # Determine if the ioremap_wc() function is present.
-@@ -1430,6 +1446,31 @@ compile_test() {
-             compile_check_conftest "$CODE" "NV_SG_ALLOC_TABLE_FROM_PAGES_PRESENT" "" "functions"
+diff --git a/kernel-dkms/conftest.sh b/kernel-dkms/conftest.sh
+index 57d85a4..4902248 100755
+--- a/kernel-dkms/conftest.sh
++++ b/kernel-dkms/conftest.sh
+@@ -806,6 +822,16 @@ compile_test() {
+             compile_check_conftest "$CODE" "NV_FILE_OPERATIONS_HAS_IOCTL" "" "types"
          ;;
  
 +        proc_ops)
@@ -147,73 +113,14 @@ index ec9e093..463a464 100755
 +            compile_check_conftest "$CODE" "NV_HAVE_PROC_OPS" "" "types"
 +        ;;
 +
-+        ktime_get_raw_ts64)
-+            #
-+            # Determine if the ktime_get_raw_ts64() function is present.
-+            #
-+            CODE="
-+            #include <linux/ktime.h>
-+            int conftest_ktime_get_raw_ts64(void) {
-+                struct timespec64 ts = {0};
-+
-+                ktime_get_raw_ts64(&ts64);
-+            }"
-+
-+            compile_check_conftest "$CODE" "NV_KTIME_GET_RAW_TS64_PRESENT" "" "functions"
-+        ;;
-+
-         efi_enabled)
+         sg_alloc_table)
              #
-             # Determine if the efi_enabled symbol is present, or if
-diff --git a/kernel/nvidia-modeset/nvidia-modeset-linux.c b/kernel/nvidia-modeset/nvidia-modeset-linux.c
-index d42aabb..f0404fb 100644
---- a/kernel/nvidia-modeset/nvidia-modeset-linux.c
-+++ b/kernel/nvidia-modeset/nvidia-modeset-linux.c
-@@ -216,7 +216,7 @@ void NVKMS_API_CALL nvkms_usleep(NvU64 usec)
- 
- NvU64 NVKMS_API_CALL nvkms_get_usec(void)
- {
--    struct timeval tv;
-+    struct nv_timeval tv;
- 
-     nv_gettimeofday(&tv);
- 
-diff --git a/kernel/nvidia-uvm/uvm_linux.h b/kernel/nvidia-uvm/uvm_linux.h
-index 8784a82..c256cdb 100644
---- a/kernel/nvidia-uvm/uvm_linux.h
-+++ b/kernel/nvidia-uvm/uvm_linux.h
-@@ -329,7 +329,16 @@ static inline uint64_t NV_DIV64(uint64_t dividend, uint64_t divisor, uint64_t *r
- }
- #endif
- 
--#if defined(CLOCK_MONOTONIC_RAW)
-+#if defined(NV_KTIME_GET_RAW_TS64_PRESENT)
-+static inline NvU64 NV_GETTIME(void)
-+{
-+    struct timespec64 ts64 = {0};
-+
-+    ktime_get_raw_ts64(&ts64);
-+
-+    return (ts64.tv_sec * 1000000000ULL + ts64.tv_nsec);
-+}
-+#elif defined(CLOCK_MONOTONIC_RAW)
- /* Return a nanosecond-precise value */
- static inline NvU64 NV_GETTIME(void)
- {
-@@ -345,7 +354,7 @@ static inline NvU64 NV_GETTIME(void)
-  * available non-GPL symbols. */
- static inline NvU64 NV_GETTIME(void)
- {
--    struct timeval tv = {0};
-+    struct nv_timeval tv = {0};
- 
-     nv_gettimeofday(&tv);
- 
-diff --git a/kernel/nvidia/nv-procfs.c b/kernel/nvidia/nv-procfs.c
-index 5808a88..bc60a08 100644
---- a/kernel/nvidia/nv-procfs.c
-+++ b/kernel/nvidia/nv-procfs.c
-@@ -414,6 +414,15 @@ done:
+             # sg_alloc_table_from_pages added by commit efc42bc98058
+diff --git a/kernel-dkms/nvidia/nv-procfs.c b/kernel-dkms/nvidia/nv-procfs.c
+index 064d727..a7308d3 100644
+--- a/kernel-dkms/nvidia/nv-procfs.c
++++ b/kernel-dkms/nvidia/nv-procfs.c
+@@ -452,6 +452,15 @@ done:
      return ((status < 0) ? status : (int)count);
  }
  
@@ -229,15 +136,63 @@ index 5808a88..bc60a08 100644
  static struct file_operations nv_procfs_registry_fops = {
      .owner   = THIS_MODULE,
      .open    = nv_procfs_open_registry,
-@@ -422,6 +431,7 @@ static struct file_operations nv_procfs_registry_fops = {
+@@ -460,6 +469,7 @@ static struct file_operations nv_procfs_registry_fops = {
      .llseek  = seq_lseek,
      .release = nv_procfs_close_registry,
  };
 +#endif
  
+ #if defined(CONFIG_PM)
+ static int
+@@ -531,6 +541,15 @@ nv_procfs_open_suspend_depth(
+     return single_open(file, nv_procfs_show_suspend_depth, NULL);
+ }
+ 
++#if defined(NV_HAVE_PROC_OPS)
++static struct proc_ops nv_procfs_suspend_depth_fops = {
++    .proc_open    = nv_procfs_open_suspend_depth,
++    .proc_read    = seq_read,
++    .proc_write   = nv_procfs_write_suspend_depth,
++    .proc_lseek   = seq_lseek,
++    .proc_release = single_release
++};
++#else
+ static struct file_operations nv_procfs_suspend_depth_fops = {
+     .owner   = THIS_MODULE,
+     .open    = nv_procfs_open_suspend_depth,
+@@ -539,6 +558,7 @@ static struct file_operations nv_procfs_suspend_depth_fops = {
+     .llseek  = seq_lseek,
+     .release = single_release
+ };
++#endif
+ 
+ static int
+ nv_procfs_show_suspend(
+@@ -613,6 +633,15 @@ nv_procfs_open_suspend(
+     return single_open(file, nv_procfs_show_suspend, NULL);
+ }
+ 
++#if defined(NV_HAVE_PROC_OPS)
++static struct proc_ops nv_procfs_suspend_fops = {
++    .proc_open    = nv_procfs_open_suspend,
++    .proc_read    = seq_read,
++    .proc_write   = nv_procfs_write_suspend,
++    .proc_lseek   = seq_lseek,
++    .proc_release = single_release
++};
++#else
+ static struct file_operations nv_procfs_suspend_fops = {
+     .owner   = THIS_MODULE,
+     .open    = nv_procfs_open_suspend,
+@@ -622,6 +651,7 @@ static struct file_operations nv_procfs_suspend_fops = {
+     .release = single_release
+ };
+ #endif
++#endif
+ 
  /*
   * Forwards error to nv_log_error which exposes data to vendor callback
-@@ -517,12 +527,20 @@ done:
+@@ -724,12 +754,20 @@ done:
      return status;
  }
  
@@ -258,7 +213,7 @@ index 5808a88..bc60a08 100644
  
  static int
  nv_procfs_read_unbind_lock(
-@@ -650,6 +668,15 @@ done:
+@@ -851,6 +889,15 @@ done:
      return rc;
  }
  
@@ -274,104 +229,54 @@ index 5808a88..bc60a08 100644
  static struct file_operations nv_procfs_unbind_lock_fops = {
      .owner   = THIS_MODULE,
      .open    = nv_procfs_open_unbind_lock,
-@@ -658,6 +685,7 @@ static struct file_operations nv_procfs_unbind_lock_fops = {
+@@ -859,6 +906,7 @@ static struct file_operations nv_procfs_unbind_lock_fops = {
      .llseek  = seq_lseek,
      .release = nv_procfs_close_unbind_lock,
  };
 +#endif
  
+ static const char*
+ numa_status_describe(nv_numa_status_t state)
+@@ -1187,6 +1235,22 @@ done:
+     return retval;
+ }
+ 
++#if defined(NV_HAVE_PROC_OPS)
++static const struct proc_ops nv_procfs_numa_status_fops = {
++    .proc_open    = nv_procfs_open_numa_status,
++    .proc_read    = seq_read,
++    .proc_write   = nv_procfs_write_file,
++    .proc_lseek   = seq_lseek,
++    .proc_release = nv_procfs_close_numa_status,
++};
++
++static const struct proc_ops nv_procfs_offline_pages_fops = {
++    .proc_open    = nv_procfs_open_offline_pages,
++    .proc_read    = seq_read,
++    .proc_lseek   = seq_lseek,
++    .proc_release = nv_procfs_close_offline_pages,
++};
++#else
+ static const struct file_operations nv_procfs_numa_status_fops = {
+     .owner   = THIS_MODULE,
+     .open    = nv_procfs_open_numa_status,
+@@ -1203,6 +1267,7 @@ static const struct file_operations nv_procfs_offline_pages_fops = {
+     .llseek  = seq_lseek,
+     .release = nv_procfs_close_offline_pages,
+ };
++#endif
+ 
  static int
  nv_procfs_read_text_file(
-diff --git a/kernel/nvidia/nvidia.Kbuild b/kernel/nvidia/nvidia.Kbuild
-index 8ae1016..da7f135 100644
---- a/kernel/nvidia/nvidia.Kbuild
-+++ b/kernel/nvidia/nvidia.Kbuild
-@@ -117,6 +117,7 @@ NV_CONFTEST_FUNCTION_COMPILE_TESTS += on_each_cpu
- NV_CONFTEST_FUNCTION_COMPILE_TESTS += smp_call_function
- NV_CONFTEST_FUNCTION_COMPILE_TESTS += acpi_evaluate_integer
- NV_CONFTEST_FUNCTION_COMPILE_TESTS += ioremap_cache
-+NV_CONFTEST_FUNCTION_COMPILE_TESTS += ioremap_nocache
- NV_CONFTEST_FUNCTION_COMPILE_TESTS += ioremap_wc
- NV_CONFTEST_FUNCTION_COMPILE_TESTS += acpi_walk_namespace
- NV_CONFTEST_FUNCTION_COMPILE_TESTS += pci_domain_nr
-@@ -169,7 +170,9 @@ NV_CONFTEST_TYPE_COMPILE_TESTS += outer_flush_all
- NV_CONFTEST_TYPE_COMPILE_TESTS += proc_dir_entry
- NV_CONFTEST_TYPE_COMPILE_TESTS += scatterlist
- NV_CONFTEST_TYPE_COMPILE_TESTS += sg_table
-+NV_CONFTEST_TYPE_COMPILE_TESTS += proc_ops
- NV_CONFTEST_TYPE_COMPILE_TESTS += file_operations
-+NV_CONFTEST_TYPE_COMPILE_TESTS += ktime_get_raw_ts64
- NV_CONFTEST_TYPE_COMPILE_TESTS += vm_operations_struct
- NV_CONFTEST_TYPE_COMPILE_TESTS += atomic_long_type
- NV_CONFTEST_TYPE_COMPILE_TESTS += pci_save_state
-diff --git a/kernel/nvidia/nvlink_linux.c b/kernel/nvidia/nvlink_linux.c
-index 0014280..537b257 100644
---- a/kernel/nvidia/nvlink_linux.c
-+++ b/kernel/nvidia/nvlink_linux.c
-@@ -518,8 +518,8 @@ void * NVLINK_API_CALL nvlink_memcpy(void *dest, void *src, NvLength size)
- 
- static NvBool nv_timer_less_than
- (
--    const struct timeval *a,
--    const struct timeval *b
-+    const struct nv_timeval *a,
-+    const struct nv_timeval *b
- )
- {
-     return (a->tv_sec == b->tv_sec) ? (a->tv_usec < b->tv_usec) 
-@@ -528,9 +528,9 @@ static NvBool nv_timer_less_than
- 
- static void nv_timeradd
- (
--    const struct timeval    *a,
--    const struct timeval    *b,
--    struct timeval          *result
-+    const struct nv_timeval    *a,
-+    const struct nv_timeval    *b,
-+    struct nv_timeval          *result
- )
- {
-     result->tv_sec = a->tv_sec + b->tv_sec;
-@@ -544,9 +544,9 @@ static void nv_timeradd
- 
- static void nv_timersub
- (
--    const struct timeval    *a,
--    const struct timeval    *b,
--    struct timeval          *result
-+    const struct nv_timeval    *a,
-+    const struct nv_timeval    *b,
-+    struct nv_timeval          *result
- )
- {
-     result->tv_sec = a->tv_sec - b->tv_sec;
-@@ -566,7 +566,7 @@ void NVLINK_API_CALL nvlink_sleep(unsigned int ms)
-     unsigned long us;
-     unsigned long jiffies;
-     unsigned long mdelay_safe_msec;
--    struct timeval tm_end, tm_aux;
-+    struct nv_timeval tm_end, tm_aux;
- 
-     nv_gettimeofday(&tm_aux);
- 
-diff --git a/kernel/nvidia/os-interface.c b/kernel/nvidia/os-interface.c
-index 344daa8..39d0a19 100644
---- a/kernel/nvidia/os-interface.c
-+++ b/kernel/nvidia/os-interface.c
-@@ -430,7 +430,7 @@ NV_STATUS NV_API_CALL os_get_current_time(
-     NvU32 *useconds
- )
- {
--    struct timeval tm;
-+    struct nv_timeval tm;
- 
-     nv_gettimeofday(&tm);
- 
-@@ -444,9 +444,15 @@ NV_STATUS NV_API_CALL os_get_current_time(
+diff --git a/kernel-dkms/nvidia/os-interface.c b/kernel-dkms/nvidia/os-interface.c
+index 07f1b77..a8f1d85 100644
+--- a/kernel-dkms/nvidia/os-interface.c
++++ b/kernel-dkms/nvidia/os-interface.c
+@@ -477,9 +477,15 @@ NV_STATUS NV_API_CALL os_get_current_time(
  
  void NV_API_CALL os_get_current_tick(NvU64 *nseconds)
  {
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 5, 0)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 6, 0)
 +    struct timespec64 ts;
 +
 +    jiffies_to_timespec64(jiffies, &ts);
@@ -383,33 +288,118 @@ index 344daa8..39d0a19 100644
  
      *nseconds = ((NvU64)ts.tv_sec * NSEC_PER_SEC + (NvU64)ts.tv_nsec);
  }
-@@ -502,7 +508,7 @@ NV_STATUS NV_API_CALL os_delay_us(NvU32 MicroSeconds)
-     unsigned long usec;
+diff --git a/kernel-dkms/common/inc/56rc3uglyhack.h b/kernel-dkms/common/inc/56rc3uglyhack.h
+new file mode 100644
+index 0000000..389d02f
+--- /dev/null
++++ b/kernel-dkms/common/inc/56rc3uglyhack.h
+@@ -0,0 +1,80 @@
++
++typedef __kernel_long_t	__kernel_time_t;
++
++#ifndef _STRUCT_TIMESPEC
++#define _STRUCT_TIMESPEC
++struct timespec {
++	__kernel_old_time_t	tv_sec;		/* seconds */
++	long			tv_nsec;	/* nanoseconds */
++};
++#endif
++
++struct timeval {
++	__kernel_old_time_t	tv_sec;		/* seconds */
++	__kernel_suseconds_t	tv_usec;	/* microseconds */
++};
++
++struct itimerspec {
++	struct timespec it_interval;/* timer period */
++	struct timespec it_value;	/* timer expiration */
++};
++
++struct itimerval {
++	struct timeval it_interval;/* timer interval */
++	struct timeval it_value;	/* current value */
++};
++
++#if __BITS_PER_LONG == 64
++
++/* timespec64 is defined as timespec here */
++static inline struct timespec timespec64_to_timespec(const struct timespec64 ts64)
++{
++	return *(const struct timespec *)&ts64;
++}
++
++static inline struct timespec64 timespec_to_timespec64(const struct timespec ts)
++{
++	return *(const struct timespec64 *)&ts;
++}
++
++#else
++static inline struct timespec timespec64_to_timespec(const struct timespec64 ts64)
++{
++	struct timespec ret;
++
++	ret.tv_sec = (time_t)ts64.tv_sec;
++	ret.tv_nsec = ts64.tv_nsec;
++	return ret;
++}
++
++static inline struct timespec64 timespec_to_timespec64(const struct timespec ts)
++{
++	struct timespec64 ret;
++
++	ret.tv_sec = ts.tv_sec;
++	ret.tv_nsec = ts.tv_nsec;
++	return ret;
++}
++#endif
++
++static inline void getnstimeofday(struct timespec *ts)
++{
++	struct timespec64 ts64;
++
++	ktime_get_real_ts64(&ts64);
++	*ts = timespec64_to_timespec(ts64);
++}
++
++static inline s64 timespec_to_ns(const struct timespec *ts)
++{
++	return ((s64) ts->tv_sec * NSEC_PER_SEC) + ts->tv_nsec;
++}
++
++static inline void getrawmonotonic(struct timespec *ts)
++{
++	struct timespec64 ts64;
++
++	ktime_get_raw_ts64(&ts64);
++	*ts = timespec64_to_timespec(ts64);
++}
++ 
+diff --git a/kernel-dkms/common/inc/nv-time.h b/kernel-dkms/common/inc/nv-time.h
+index 968b873..165f18b 100644
+--- a/kernel-dkms/common/inc/nv-time.h
++++ b/kernel-dkms/common/inc/nv-time.h
+@@ -27,6 +27,10 @@
  
- #ifdef NV_CHECK_DELAY_ACCURACY
--    struct timeval tm1, tm2;
-+    struct nv_timeval tm1, tm2;
+ #include <linux/ktime.h>
  
-     nv_gettimeofday(&tm1);
- #endif
-@@ -542,9 +548,9 @@ NV_STATUS NV_API_CALL os_delay(NvU32 MilliSeconds)
-     unsigned long MicroSeconds;
-     unsigned long jiffies;
-     unsigned long mdelay_safe_msec;
--    struct timeval tm_end, tm_aux;
-+    struct nv_timeval tm_end, tm_aux;
- #ifdef NV_CHECK_DELAY_ACCURACY
--    struct timeval tm_start;
-+    struct nv_timeval tm_start;
- #endif
- 
-     nv_gettimeofday(&tm_aux);
-@@ -1926,7 +1932,7 @@ static NV_STATUS NV_API_CALL _os_ipmi_receive_resp
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 6, 0)
++#include "56rc3uglyhack.h"
++#endif
++
+ static inline void nv_gettimeofday(struct timeval *tv)
  {
-     struct ipmi_recv_msg    *rx_msg;
-     int                     err_no;
--    struct timeval          tv;
-+    struct nv_timeval          tv;
-     NvU64                   start_time;
- 
-     nv_gettimeofday(&tv);
+ #ifdef NV_DO_GETTIMEOFDAY_PRESENT
+diff --git a/kernel-dkms/nvidia/linux_nvswitch.c b/kernel-dkms/nvidia/linux_nvswitch.c
+index 1d2c1bc..388d64f 100644
+--- a/kernel-dkms/nvidia/linux_nvswitch.c
++++ b/kernel-dkms/nvidia/linux_nvswitch.c
+@@ -26,6 +26,9 @@
+ #include "conftest.h"
+ #include "nvmisc.h"
+ #include "nv-linux.h"
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 6, 0)
++#include "nv-time.h"
++#endif
+ #include "nv-procfs.h"
+ #include "nvlink_common.h"
+ #include "nvlink_errors.h"
