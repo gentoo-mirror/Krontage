@@ -1,7 +1,7 @@
-diff --git a/kernel-dkms/nvidia/nvidia.Kbuild b/kernel-dkms/nvidia/nvidia.Kbuild
+diff --git a/kernel/nvidia/nvidia.Kbuild b/kernel/nvidia/nvidia.Kbuild
 index 5ec3e65..2897e31 100644
---- a/kernel-dkms/nvidia/nvidia.Kbuild
-+++ b/kernel-dkms/nvidia/nvidia.Kbuild
+--- a/kernel/nvidia/nvidia.Kbuild
++++ b/kernel/nvidia/nvidia.Kbuild
 @@ -150,6 +151,7 @@ NV_CONFTEST_SYMBOL_COMPILE_TESTS += is_export_symbol_present_swiotlb_dma_ops
  NV_CONFTEST_TYPE_COMPILE_TESTS += acpi_op_remove
  NV_CONFTEST_TYPE_COMPILE_TESTS += outer_flush_all
@@ -11,10 +11,10 @@ index 5ec3e65..2897e31 100644
  NV_CONFTEST_TYPE_COMPILE_TESTS += kuid_t
  NV_CONFTEST_TYPE_COMPILE_TESTS += dma_ops
 
-diff --git a/kernel-dkms/common/inc/nv-procfs.h b/kernel-dkms/common/inc/nv-procfs.h
+diff --git a/kernel/common/inc/nv-procfs.h b/kernel/common/inc/nv-procfs.h
 index 8b53f86..4c5aceb 100644
---- a/kernel-dkms/common/inc/nv-procfs.h
-+++ b/kernel-dkms/common/inc/nv-procfs.h
+--- a/kernel/common/inc/nv-procfs.h
++++ b/kernel/common/inc/nv-procfs.h
 @@ -28,6 +28,18 @@
  
  #define IS_EXERCISE_ERROR_FORWARDING_ENABLED() (EXERCISE_ERROR_FORWARDING)
@@ -95,10 +95,10 @@ index 8b53f86..4c5aceb 100644
  
  #endif  /* CONFIG_PROC_FS */
  
-diff --git a/kernel-dkms/conftest.sh b/kernel-dkms/conftest.sh
+diff --git a/kernel/conftest.sh b/kernel/conftest.sh
 index 57d85a4..4902248 100755
---- a/kernel-dkms/conftest.sh
-+++ b/kernel-dkms/conftest.sh
+--- a/kernel/conftest.sh
++++ b/kernel/conftest.sh
 @@ -806,6 +822,16 @@ compile_test() {
              compile_check_conftest "$CODE" "NV_FILE_OPERATIONS_HAS_IOCTL" "" "types"
          ;;
@@ -116,10 +116,10 @@ index 57d85a4..4902248 100755
          sg_alloc_table)
              #
              # sg_alloc_table_from_pages added by commit efc42bc98058
-diff --git a/kernel-dkms/nvidia/nv-procfs.c b/kernel-dkms/nvidia/nv-procfs.c
+diff --git a/kernel/nvidia/nv-procfs.c b/kernel/nvidia/nv-procfs.c
 index 064d727..a7308d3 100644
---- a/kernel-dkms/nvidia/nv-procfs.c
-+++ b/kernel-dkms/nvidia/nv-procfs.c
+--- a/kernel/nvidia/nv-procfs.c
++++ b/kernel/nvidia/nv-procfs.c
 @@ -452,6 +452,15 @@ done:
      return ((status < 0) ? status : (int)count);
  }
@@ -268,10 +268,10 @@ index 064d727..a7308d3 100644
  
  static int
  nv_procfs_read_text_file(
-diff --git a/kernel-dkms/nvidia/os-interface.c b/kernel-dkms/nvidia/os-interface.c
+diff --git a/kernel/nvidia/os-interface.c b/kernel/nvidia/os-interface.c
 index 07f1b77..a8f1d85 100644
---- a/kernel-dkms/nvidia/os-interface.c
-+++ b/kernel-dkms/nvidia/os-interface.c
+--- a/kernel/nvidia/os-interface.c
++++ b/kernel/nvidia/os-interface.c
 @@ -477,9 +477,15 @@ NV_STATUS NV_API_CALL os_get_current_time(
  
  void NV_API_CALL os_get_current_tick(NvU64 *nseconds)
@@ -288,11 +288,11 @@ index 07f1b77..a8f1d85 100644
  
      *nseconds = ((NvU64)ts.tv_sec * NSEC_PER_SEC + (NvU64)ts.tv_nsec);
  }
-diff --git a/kernel-dkms/common/inc/56rc3uglyhack.h b/kernel-dkms/common/inc/56rc3uglyhack.h
+diff --git a/kernel/common/inc/56rc3uglyhack.h b/kernel/common/inc/56rc3uglyhack.h
 new file mode 100644
 index 0000000..389d02f
 --- /dev/null
-+++ b/kernel-dkms/common/inc/56rc3uglyhack.h
++++ b/kernel/common/inc/56rc3uglyhack.h
 @@ -0,0 +1,80 @@
 +
 +typedef __kernel_long_t	__kernel_time_t;
@@ -374,10 +374,10 @@ index 0000000..389d02f
 +	*ts = timespec64_to_timespec(ts64);
 +}
 + 
-diff --git a/kernel-dkms/common/inc/nv-time.h b/kernel-dkms/common/inc/nv-time.h
+diff --git a/kernel/common/inc/nv-time.h b/kernel/common/inc/nv-time.h
 index 968b873..165f18b 100644
---- a/kernel-dkms/common/inc/nv-time.h
-+++ b/kernel-dkms/common/inc/nv-time.h
+--- a/kernel/common/inc/nv-time.h
++++ b/kernel/common/inc/nv-time.h
 @@ -27,6 +27,10 @@
  
  #include <linux/ktime.h>
@@ -389,10 +389,10 @@ index 968b873..165f18b 100644
  static inline void nv_gettimeofday(struct timeval *tv)
  {
  #ifdef NV_DO_GETTIMEOFDAY_PRESENT
-diff --git a/kernel-dkms/nvidia/linux_nvswitch.c b/kernel-dkms/nvidia/linux_nvswitch.c
+diff --git a/kernel/nvidia/linux_nvswitch.c b/kernel/nvidia/linux_nvswitch.c
 index 1d2c1bc..388d64f 100644
---- a/kernel-dkms/nvidia/linux_nvswitch.c
-+++ b/kernel-dkms/nvidia/linux_nvswitch.c
+--- a/kernel/nvidia/linux_nvswitch.c
++++ b/kernel/nvidia/linux_nvswitch.c
 @@ -26,6 +26,9 @@
  #include "conftest.h"
  #include "nvmisc.h"
