@@ -167,8 +167,11 @@ src_prepare() {
 		eapply "${WORKDIR}"/nvidia-settings-linker.patch
 	fi
 
-	cp "${FILESDIR}"/kernel-5.6.patch "${WORKDIR}" || die
-	eapply "${WORKDIR}"/kernel-5.6.patch
+	cp "${FILESDIR}"/nvidia-fix_for_kernel_5.5.patch "${WORKDIR}" || die
+	eapply "${WORKDIR}"/nvidia-fix_for_kernel_5.5.patch
+
+	#cp "${FILESDIR}"/kernel-5.6.patch "${WORKDIR}" || die
+	#eapply "${WORKDIR}"/kernel-5.6.patch
 
 	default
 
