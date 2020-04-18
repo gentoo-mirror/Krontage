@@ -173,6 +173,9 @@ src_prepare() {
 	cp "${FILESDIR}"/5.6-legacy-includes.diff "${WORKDIR}" || die
 	eapply "${WORKDIR}"/5.6-legacy-includes.diff
 
+	cp "${FILESDIR}"/xf86-video-nvidia-0000-fix-for-kernel-5.5.patch "${WORKDIR}" || die
+	eapply "${WORKDIR}"/xf86-video-nvidia-0000-fix-for-kernel-5.5.patch
+
 	default
 
 	if ! [ -f nvidia_icd.json ]; then
